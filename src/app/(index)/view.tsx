@@ -1,17 +1,17 @@
 import React from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
-interface IndexViewProps {
+interface AuthViewProps {
   illustration: string;
   googleIcon: string;
   login: () => Promise<void>;
 }
 
-export default function IndexView({
+export default function AuthView({
   illustration,
   login,
   googleIcon,
-}: IndexViewProps) {
+}: AuthViewProps) {
   return (
     <View style={styles.container}>
       <Image source={require(illustration)} />
