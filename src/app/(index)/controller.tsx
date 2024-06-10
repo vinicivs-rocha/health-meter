@@ -1,4 +1,4 @@
-import { IndexViewModel } from "./view-model";
+import { IndexViewModel } from "../../adapters/view-models";
 
 interface IndexControllerProps {
   viewModel: IndexViewModel;
