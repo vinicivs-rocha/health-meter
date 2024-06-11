@@ -1,3 +1,4 @@
+import { inject } from "inversify";
 import { Usecase } from "../../../core/usecases/usecase";
 import { Unauthenticated } from "../../enterprise/exceptions/unauthenticated";
 import type {
@@ -14,8 +15,8 @@ export class Authenticate implements Usecase<[], AuthenticateOutput> {
   output!: AuthenticateOutput;
 
   constructor(
-    private readonly authenticationGateway: AuthenticationGateway,
-    private readonly authenticationPresenter: AuthenticationPresenter
+    @inject('AuthenticationGateway') private readonly authenticationGateway: AuthenticationGateway,
+    @inject('AuthenticationPresenter') private readonly authenticationPresenter: AuthenticationPresenter
   ) {}
 
   async execute() {
