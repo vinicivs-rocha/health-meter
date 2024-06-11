@@ -1,13 +1,12 @@
 import { UserData } from "@/domain/application/gateways/authentication";
 import { AuthenticationPresenter } from "@/domain/application/presenters/authentication";
-import { ExpoRouter } from "expo-router/types/expo-router";
+import { router } from "expo-router";
 import { inject, injectable } from "inversify";
 
 @injectable()
 export class ExpoAuthenticationPresenter implements AuthenticationPresenter {
-  constructor(
-    @inject("ExpoRouter") private readonly router: ExpoRouter.Router
-  ) {}
+  @inject("ExpoRouter") private readonly router!: typeof router;
+
   presentError(message: string): Promise<void> {
     throw new Error("Method not implemented.");
   }

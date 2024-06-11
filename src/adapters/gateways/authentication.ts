@@ -7,9 +7,7 @@ import { inject, injectable } from "inversify";
 
 @injectable()
 export class SupabaseAuthenticationGateway implements AuthenticationGateway {
-  constructor(
-    @inject("SupabaseClient") private readonly supabase: SupabaseClient
-  ) {}
+  @inject("SupabaseClient") private readonly supabase!: SupabaseClient;
   async getStoredUser(): Promise<UserData | null> {
     const { data, error } = await this.supabase.auth.getSession();
 
