@@ -16,7 +16,7 @@ AppState.addEventListener("change", (state) => {
 export default function Layout() {
   return (
     <AppInjectorProvider appInjector={appInjector}>
-      <Stack />
+      <Stack screenOptions={{ headerShown: false }}/>
     </AppInjectorProvider>
   );
 }
