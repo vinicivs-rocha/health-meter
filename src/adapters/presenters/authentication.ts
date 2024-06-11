@@ -1,8 +1,9 @@
 import { UserData } from "@/domain/application/gateways/authentication";
 import { AuthenticationPresenter } from "@/domain/application/presenters/authentication";
 import { ExpoRouter } from "expo-router/types/expo-router";
-import { inject } from "inversify";
+import { inject, injectable } from "inversify";
 
+@injectable()
 export class ExpoAuthenticationPresenter implements AuthenticationPresenter {
   constructor(
     @inject("ExpoRouter") private readonly router: ExpoRouter.Router

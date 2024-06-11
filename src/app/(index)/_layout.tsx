@@ -13,6 +13,7 @@ import { Stack } from "expo-router/stack";
 import { ExpoRouter } from "expo-router/types/expo-router";
 import { Container } from "inversify";
 import { AppState } from "react-native";
+import "reflect-metadata";
 import { IndexViewModel } from "../../adapters/view-models";
 
 const appInjector = new Container();

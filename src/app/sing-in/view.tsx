@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 
 interface SignInViewProps {
   illustration: string;
@@ -14,14 +14,14 @@ export default function SignInView({
 }: SignInViewProps) {
   return (
     <View style={styles.container}>
-      <Image source={require(illustration)} />
+      {/* <Image source={require(illustration)} /> */}
       <View>
         <Text style={styles.title}>App title</Text>
         <Text style={styles.slogan}>App slogan</Text>
       </View>
       <Pressable onPress={login}>
         <Text>Login with Google</Text>
-        <Image src={require(googleIcon)} />
+        {/* <Image src={require(googleIcon)} /> */}
       </Pressable>
     </View>
   );

@@ -3,8 +3,9 @@ import {
   UserData,
 } from "@/domain/application/gateways/authentication";
 import { SupabaseClient } from "@supabase/supabase-js";
-import { inject } from "inversify";
+import { inject, injectable } from "inversify";
 
+@injectable()
 export class SupabaseAuthenticationGateway implements AuthenticationGateway {
   constructor(
     @inject("SupabaseClient") private readonly supabase: SupabaseClient
