@@ -6,14 +6,7 @@ interface SignInControllerProps {
 }
 
 export default function SignInController({ viewModel }: SignInControllerProps) {
-  const googleIcon = "@assets/google-icon.png";
-  const illustration = "@assets/illustration.png";
-
   return (
-    <SignInView
-      illustration={illustration}
-      googleIcon={googleIcon}
-      login={() => viewModel.signIn({ email: "" })}
-    ></SignInView>
+    <SignInView login={() => viewModel.signIn({ email: "" })}></SignInView>
   );
 }
