@@ -1,3 +1,4 @@
+import { inject } from "inversify";
 import type { Usecase } from "../../../core/usecases/usecase";
 import type {
   AuthenticationGateway,
@@ -18,7 +19,9 @@ export class SignIn implements Usecase<Input, SignInOutput> {
   output!: SignInOutput;
 
   constructor(
+    @inject("AuthenticationGateway")
     private readonly authenticationGateway: AuthenticationGateway,
+    @inject("AuthenticationPresenter")
     private readonly authenticationPresenter: AuthenticationPresenter
   ) {}
 
