@@ -6,17 +6,12 @@ import type {
 } from "../gateways/authentication";
 import type { AuthenticationPresenter } from "../presenters/authentication";
 
-type Input = {
-  email: string;
-  password?: string;
-};
-
 export type SignInOutput = {
   userData: UserData;
 };
 
 @injectable()
-export class SignIn implements Usecase<Input, SignInOutput> {
+export class SignIn implements Usecase<[], SignInOutput> {
   output!: SignInOutput;
 
   constructor(
@@ -26,10 +21,10 @@ export class SignIn implements Usecase<Input, SignInOutput> {
     private readonly authenticationPresenter: AuthenticationPresenter
   ) {}
 
-  async execute(input: Input) {
+  async execute() {
     try {
       this.output = {
-        userData: await this.authenticationGateway.signIn(input),
+        userData: await this.authenticationGateway.signIn(),
       };
 
       this.authenticationPresenter.presentAuthenticated(this.output.userData);

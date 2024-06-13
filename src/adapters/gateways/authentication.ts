@@ -15,9 +15,11 @@ export class SupabaseAuthenticationGateway implements AuthenticationGateway {
       throw error;
     }
 
+    console.log(data, data.session);
+
     return (data.session as unknown as UserData) ?? null;
   }
-  signIn(data: { email: string; password?: string }): Promise<UserData> {
+  signIn(): Promise<UserData> {
     throw new Error("Method not implemented.");
   }
   signOut(): Promise<void> {

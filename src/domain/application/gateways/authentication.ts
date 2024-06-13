@@ -6,6 +6,6 @@ export type UserData = {
 
 export interface AuthenticationGateway {
   getStoredUser(): Promise<UserData | null>;
-  signIn(data: { email: string; password?: string }): Promise<UserData>;
+  signIn(): Promise<UserData>;
   signOut(): Promise<void>;
 }
