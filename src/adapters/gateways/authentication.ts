@@ -2,6 +2,11 @@ import {
   AuthenticationGateway,
   UserData,
 } from "@/domain/application/gateways/authentication";
+import { supabase } from "@/utils/supabase";
+import {
+  GoogleSignin,
+  statusCodes,
+} from "@react-native-google-signin/google-signin";
 import { SupabaseClient } from "@supabase/supabase-js";
 import { inject, injectable } from "inversify";
 
@@ -19,9 +24,21 @@ export class SupabaseAuthenticationGateway implements AuthenticationGateway {
 
     return (data.session as unknown as UserData) ?? null;
   }
-  signIn(): Promise<UserData> {
-    throw new Error("Method not implemented.");
+  async signIn(): Promise<UserData> {
+    await GoogleSignin.hasPlayServices();
+    const userInfo = await GoogleSignin.signIn();
+    if (userInfo.idToken) {
+      const { data, error } = await supabase.auth.signInWithIdToken({
+        provider: "google",
+        token: userInfo.idToken,
+      });
+      console.log(error, data);
+      return data as unknown as UserData;
+    }
+
+    throw new Error("no ID token present!");
   }
+
   signOut(): Promise<void> {
     throw new Error("Method not implemented.");
   }

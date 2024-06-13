@@ -46,6 +46,6 @@ expo-env.d.ts
 # credentials
 credentials.json
 *.keystore
-android/keystores/release.keystore
+android/
 # ENV
 .env

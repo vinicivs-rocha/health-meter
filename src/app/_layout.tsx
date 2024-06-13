@@ -7,9 +7,12 @@ import {
   Poppins_600SemiBold,
   Poppins_700Bold,
 } from "@expo-google-fonts/poppins";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
+import dotenv from "dotenv";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router/stack";
 import { AppState, SafeAreaView, StatusBar } from "react-native";
+dotenv.config();
 
 AppState.addEventListener("change", (state) => {
   if (state === "active") {
@@ -19,11 +22,13 @@ AppState.addEventListener("change", (state) => {
   }
 });
 
+GoogleSignin.configure()
+
 export default function Layout() {
   let [fontsLoaded, fontError] = useFonts({
     Poppins_400Regular,
     Poppins_700Bold,
-    Poppins_600SemiBold
+    Poppins_600SemiBold,
   });
 
   if (!fontsLoaded && !fontError) {
