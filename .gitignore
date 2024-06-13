@@ -42,3 +42,10 @@ yarn-error.*
 
 expo-env.d.ts
 # @end expo-cli
+
+# credentials
+credentials.json
+*.keystore
+android/keystores/release.keystore
+# ENV
+.env
