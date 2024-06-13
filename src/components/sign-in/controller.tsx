@@ -6,7 +6,5 @@ interface SignInControllerProps {
 }
 
 export default function SignInController({ viewModel }: SignInControllerProps) {
-  return (
-    <SignInView login={() => viewModel.signIn({ email: "" })}></SignInView>
-  );
+  return <SignInView login={() => viewModel.signIn()}></SignInView>;
 }

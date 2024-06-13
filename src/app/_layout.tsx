@@ -2,8 +2,14 @@ import "reflect-metadata";
 import { AppInjectorProvider } from "@/contexts/app-injector";
 import { appInjector } from "@/main";
 import { supabase } from "@/utils/supabase";
+import {
+  Poppins_400Regular,
+  Poppins_600SemiBold,
+  Poppins_700Bold,
+} from "@expo-google-fonts/poppins";
+import { useFonts } from "expo-font";
 import { Stack } from "expo-router/stack";
-import { AppState } from "react-native";
+import { AppState, SafeAreaView, StatusBar } from "react-native";
 
 AppState.addEventListener("change", (state) => {
   if (state === "active") {
@@ -14,9 +20,22 @@ AppState.addEventListener("change", (state) => {
 });
 
 export default function Layout() {
+  let [fontsLoaded, fontError] = useFonts({
+    Poppins_400Regular,
+    Poppins_700Bold,
+    Poppins_600SemiBold
+  });
+
+  if (!fontsLoaded && !fontError) {
+    return null;
+  }
   return (
     <AppInjectorProvider appInjector={appInjector}>
-      <Stack screenOptions={{ headerShown: false }}/>
+      <SafeAreaView
+        style={{ flex: 1, paddingVertical: StatusBar.currentHeight }}
+      >
+        <Stack screenOptions={{ headerShown: false }} />
+      </SafeAreaView>
     </AppInjectorProvider>
   );
 }

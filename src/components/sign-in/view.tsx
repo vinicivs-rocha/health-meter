@@ -11,13 +11,15 @@ export default function SignInView({ login }: SignInViewProps) {
   return (
     <View style={styles.container}>
       <Illustration />
-      <View>
-        <Text style={styles.title}>App title</Text>
-        <Text style={styles.slogan}>App slogan</Text>
+      <View style={styles.titleContainer}>
+        <Text style={styles.title}>Desafie a si mesmo</Text>
+        <Text style={styles.slogan}>
+          Comece uma dieta balanceada e saudável
+        </Text>
       </View>
-      <Pressable onPress={login}>
+      <Pressable onPress={login} style={styles.signInButton}>
         <SignInIcon />
-        <Text>Login with Google</Text>
+        <Text style={styles.signInButtonText}>Login with Google</Text>
       </Pressable>
     </View>
   );
@@ -26,16 +28,43 @@ export default function SignInView({ login }: SignInViewProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "space-between",
     alignItems: "center",
+    backgroundColor: "white",
+    paddingVertical: "10%",
+    paddingHorizontal: "15%",
+  },
+  titleContainer: {
+    width: "100%",
+    gap: 16,
   },
   title: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "black",
+    color: "#343A40",
+    fontFamily: "Poppins_700Bold",
+    textAlign: "center",
   },
   slogan: {
+    fontSize: 12,
+    fontFamily: "Poppins_400Regular",
+    color: "#68717A",
+    textAlign: "center",
+  },
+  signInButton: {
+    flexDirection: "row",
+    backgroundColor: "#FFE69C",
+    borderRadius: 6,
+    width: "100%",
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 24,
+  },
+  signInButtonText: {
+    color: "#343A40",
     fontSize: 16,
-    color: "gray",
+    fontFamily: "Poppins_600SemiBold",
   },
 });
