@@ -4,11 +4,11 @@
     "slug": "health-meter",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/calories-icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
       "resizeMode": "contain",
+      "image": "./assets/calories.png",
       "backgroundColor": "#ffffff"
     },
     "ios": {
@@ -16,12 +16,12 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/calories-icon.png",
         "backgroundColor": "#ffffff"
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/calories-icon.png"
     },
     "plugins": ["expo-router", "expo-font"],
     "scheme": "your-app-scheme",
