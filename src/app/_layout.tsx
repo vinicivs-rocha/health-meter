@@ -11,6 +11,7 @@ import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router/stack";
 import { AppState, SafeAreaView, StatusBar } from "react-native";
+import { GOOGLE_WEB_CLIENT_ID } from "@env";
 
 AppState.addEventListener("change", (state) => {
   if (state === "active") {
@@ -21,7 +22,8 @@ AppState.addEventListener("change", (state) => {
 });
 
 GoogleSignin.configure({
-  scopes: ["openid", "profile", "email"],
+  webClientId: GOOGLE_WEB_CLIENT_ID,
+  offlineAccess: true,
 });
 
 export default function Layout() {
