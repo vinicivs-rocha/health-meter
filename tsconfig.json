@@ -12,15 +12,9 @@
     "strict": true,
     "baseUrl": ".",
     "paths": {
-      "@core/*": [
-        "src/core/*"
-      ],
-      "@/*": [
-        "src/*"
-      ],
-      "@assets/*": [
-        "assets/*"
-      ]
+      "@core/*": ["src/core/*"],
+      "@/*": ["src/*"],
+      "@assets/*": ["assets/*"]
     }
   },
   "include": [

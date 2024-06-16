@@ -2,6 +2,7 @@ import "reflect-metadata";
 import { AppInjectorProvider } from "@/contexts/app-injector";
 import { appInjector } from "@/main";
 import { supabase } from "@/utils/supabase";
+import { GOOGLE_WEB_CLIENT_ID } from "@env";
 import {
   Poppins_400Regular,
   Poppins_600SemiBold,
@@ -11,7 +12,7 @@ import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router/stack";
 import { AppState, SafeAreaView, StatusBar } from "react-native";
-import { GOOGLE_WEB_CLIENT_ID } from "@env";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 AppState.addEventListener("change", (state) => {
   if (state === "active") {
@@ -38,11 +39,13 @@ export default function Layout() {
   }
   return (
     <AppInjectorProvider appInjector={appInjector}>
-      <SafeAreaView
-        style={{ flex: 1, paddingVertical: StatusBar.currentHeight }}
-      >
-        <Stack screenOptions={{ headerShown: false }} />
-      </SafeAreaView>
+      <SafeAreaProvider>
+        <SafeAreaView
+          style={{ flex: 1, paddingVertical: StatusBar.currentHeight }}
+        >
+          <Stack screenOptions={{ headerShown: false }} />
+        </SafeAreaView>
+      </SafeAreaProvider>
     </AppInjectorProvider>
   );
 }

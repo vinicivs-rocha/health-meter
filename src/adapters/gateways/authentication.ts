@@ -21,8 +21,8 @@ export class SupabaseAuthenticationGateway implements AuthenticationGateway {
 
     return (data.session as unknown as UserData) ?? null;
   }
+
   async signIn(): Promise<UserData> {
-    await GoogleSignin.signOut();
     await GoogleSignin.hasPlayServices();
     const userInfo = await GoogleSignin.signIn();
 
@@ -31,7 +31,7 @@ export class SupabaseAuthenticationGateway implements AuthenticationGateway {
         provider: "google",
         token: userInfo.idToken,
       });
-      console.log(error, data);
+
       const { photo, id, name } = userInfo.user;
       return {
         id,
