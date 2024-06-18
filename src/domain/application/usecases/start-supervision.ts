@@ -1,3 +1,4 @@
+import { inject, injectable } from "inversify";
 import { Usecase } from "../../../core/usecases/usecase";
 import { FetchFailed } from "../../enterprise/exceptions/fetch-failed";
 import type { SupervisionPresenter } from "../presenters/supervision";
@@ -16,14 +17,18 @@ export type StartSupervisionOutput = {
   meals: MealData[];
 };
 
+@injectable()
 export class StartSupervision
   implements Usecase<Input, StartSupervisionOutput>
 {
   output!: StartSupervisionOutput;
 
   constructor(
+    @inject("SupervisedRepository")
     private readonly supervisedRepository: SupervisedRepository,
+    @inject("SupervisedRepository")
     private readonly mealRepository: MealRepository,
+    @inject("SupervisedRepository")
     private readonly supervisionPresenter: SupervisionPresenter
   ) {}
   async execute({ supervisedId }: Input) {
