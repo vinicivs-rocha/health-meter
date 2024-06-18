@@ -1,13 +1,13 @@
 import type { Goal } from "../../enterprise/value-objects/goal";
-import type { Nutrient } from "../../enterprise/value-objects/nutrient";
+import type { Metric } from "../../enterprise/value-objects/nutrient";
 
 export type SupervisedData = {
   id: string;
   name: string;
   photo: string;
-  calorieGoal: Goal;
-  calorieIntake: number;
-  nutrients: Nutrient[];
+  highlightedGoal: Goal;
+  highlightedIntake: number;
+  metrics: Metric[];
   mealIds: string[];
 };
 
