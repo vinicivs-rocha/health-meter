@@ -40,6 +40,11 @@ export class StartSupervision
       this.output.meals.concat(
         ...(await this.mealRepository.findByIds(this.output.supervised.mealIds))
       );
+
+      this.supervisionPresenter.presentSupervision({
+        supervised: this.output.supervised,
+        meals: this.output.meals,
+      });
     } catch (error) {
       if (error instanceof FetchFailed) {
         this.supervisionPresenter.presentError(error.message);

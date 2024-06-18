@@ -3,7 +3,7 @@ import type { SupervisedData } from "../repositories/supervised";
 
 export interface SupervisionPresenter {
   presentSupervision(data: {
-    supervided: SupervisedData;
+    supervised: SupervisedData;
     meals: MealData[];
   }): Promise<void>;
   presentError(message: string): Promise<void>;
