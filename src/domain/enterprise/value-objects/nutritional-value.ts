@@ -1,8 +1,8 @@
-import type { Nutrient } from "./nutrient";
+import type { Metric } from "./nutrient";
 
 export class NutritionalValue {
   constructor(
-    public readonly nutrient: Nutrient,
+    public readonly nutrient: Metric,
     public readonly value: number
   ) {}
 }

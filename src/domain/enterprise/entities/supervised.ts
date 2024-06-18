@@ -2,14 +2,14 @@ import { randomUUID } from "crypto";
 import { Entity } from "../../../core/entities/entity";
 import type { Optional } from "../../../core/types/optional";
 import type { Goal } from "../value-objects/goal";
-import type { Nutrient } from "../value-objects/nutrient";
+import type { Metric } from "../value-objects/nutrient";
 
 export type SupervisedProps = {
   id: string;
   name: string;
   calorieGoal?: Goal;
   calorieIntake: number;
-  nutrients: Nutrient[];
+  nutrients: Metric[];
   mealIds: string[];
 };
 
