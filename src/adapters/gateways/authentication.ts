@@ -11,15 +11,20 @@ import { inject, injectable } from "inversify";
 export class SupabaseAuthenticationGateway implements AuthenticationGateway {
   @inject("SupabaseClient") private readonly supabase!: SupabaseClient;
   async getStoredUser(): Promise<UserData | null> {
-    const { data, error } = await this.supabase.auth.getSession();
+    const {
+      data: { session },
+      error,
+    } = await this.supabase.auth.getSession();
 
     if (error) {
       throw error;
     }
 
-    console.log(data, data.session);
-
-    return (data.session as unknown as UserData) ?? null;
+    return session && {
+      photo: session.user.user_metadata.avatar_url,
+      name: session.user.user_metadata.name,
+      id: session.user.id!,
+    };
   }
 
   async signIn(): Promise<UserData> {
