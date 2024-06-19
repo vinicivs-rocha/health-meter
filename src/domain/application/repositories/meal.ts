@@ -3,7 +3,6 @@ import type { NutritionalValue } from "../../enterprise/value-objects/nutritiona
 export type MealData = {
   id: string;
   name: string;
-  calories: number;
   nutrionalValues: NutritionalValue[];
 };
 
