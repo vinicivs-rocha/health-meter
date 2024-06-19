@@ -14,6 +14,6 @@ export class ExpoAuthenticationPresenter implements AuthenticationPresenter {
     this.router.replace("/sign-in");
   }
   async presentAuthenticated({ id }: UserData): Promise<void> {
-    this.router.replace({ pathname: `start-supervision/${id}` });
+    this.router.replace({ pathname: `supervision/${id}` });
   }
 }

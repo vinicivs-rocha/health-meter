@@ -41,7 +41,11 @@ export default function Layout() {
     <AppInjectorProvider appInjector={appInjector}>
       <SafeAreaProvider>
         <SafeAreaView
-          style={{ flex: 1, paddingVertical: StatusBar.currentHeight }}
+          style={{
+            flex: 1,
+            paddingVertical: StatusBar.currentHeight,
+            backgroundColor: "white",
+          }}
         >
           <Stack screenOptions={{ headerShown: false }} />
         </SafeAreaView>

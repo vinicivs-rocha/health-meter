@@ -1,5 +1,5 @@
 import { StartSupervisionViewModel } from "@/adapters/view-models/start-supervision";
-import StartSupervisionController from "@/components/start-supervision/controller";
+import StartSupervisionController from "@/components/supervision/controller";
 import { useAppInjector } from "@/hooks/app-injector";
 import { useLocalSearchParams } from "expo-router";
 
