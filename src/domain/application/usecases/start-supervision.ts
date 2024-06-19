@@ -23,14 +23,13 @@ export class StartSupervision
 {
   output!: StartSupervisionOutput;
 
-  constructor(
-    @inject("SupervisedRepository")
-    private readonly supervisedRepository: SupervisedRepository,
-    @inject("SupervisedRepository")
-    private readonly mealRepository: MealRepository,
-    @inject("SupervisedRepository")
-    private readonly supervisionPresenter: SupervisionPresenter
-  ) {}
+  @inject("SupervisedRepository")
+  private supervisedRepository!: SupervisedRepository;
+  @inject("MealRepository")
+  private mealRepository!: MealRepository;
+  @inject("SupervisionPresenter")
+  private supervisionPresenter!: SupervisionPresenter;
+
   async execute({ supervisedId }: Input) {
     try {
       this.output = {

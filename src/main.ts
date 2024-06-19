@@ -11,6 +11,14 @@ import { AuthenticationPresenter } from "./domain/application/presenters/authent
 import { Authenticate } from "./domain/application/usecases/authenticate";
 import { SignIn } from "./domain/application/usecases/sign-in";
 import { supabase } from "./utils/supabase";
+import { StartSupervision } from "./domain/application/usecases/start-supervision";
+import { StartSupervisionViewModel } from "./adapters/view-models/start-supervision";
+import { SupabaseSupervisedRepository } from "./adapters/repository/supervised";
+import { SupervisedRepository } from "./domain/application/repositories/supervised";
+import { SupervisionPresenter } from "./domain/application/presenters/supervision";
+import { ExpoSupervisionPresenter } from "./adapters/presenters/supervision";
+import { MealRepository } from "./domain/application/repositories/meal";
+import { SupabaseMealRepository } from "./adapters/repository/meal";
 
 const appInjector = new Container();
 
@@ -29,5 +37,19 @@ appInjector.bind<SignIn>("SignIn").to(SignIn);
 
 appInjector.bind<IndexViewModel>("IndexViewModel").to(IndexViewModel);
 appInjector.bind<SignInViewModel>("SignInViewModel").to(SignInViewModel);
+
+appInjector
+  .bind<SupervisedRepository>("SupervisedRepository")
+  .to(SupabaseSupervisedRepository);
+appInjector.bind<MealRepository>("MealRepository").to(SupabaseMealRepository);
+appInjector
+  .bind<SupervisionPresenter>("SupervisionPresenter")
+  .to(ExpoSupervisionPresenter);
+
+appInjector.bind<StartSupervision>("StartSupervision").to(StartSupervision);
+
+appInjector
+  .bind<StartSupervisionViewModel>("StartSupervisionViewModel")
+  .to(StartSupervisionViewModel);
 
 export { appInjector };
