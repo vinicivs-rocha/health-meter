@@ -54,7 +54,7 @@ export class SupabaseSupervisedRepository implements SupervisedRepository {
       session && {
         id,
         name: session.user.user_metadata.name,
-        photo: session.user.user_metadata.photo,
+        photo: session.user.user_metadata.picture,
         highlightedGoal: highlightedMetric?.goal,
         highlightedIntake: highlightedMetric?.intake,
         metrics,
