@@ -1,14 +1,14 @@
 import { MealData } from "@/domain/application/repositories/meal";
 import { SupervisedData } from "@/domain/application/repositories/supervised";
 import { injectable } from "inversify";
-import { makeAutoObservable } from "mobx";
+import { action, makeAutoObservable, runInAction } from "mobx";
 
 @injectable()
 export class SupervisionStore {
-  supervisedLoading?: boolean;
-  mealsLoading?: boolean;
-  supervised?: SupervisedData;
-  meals?: MealData[];
+  supervisedLoading: boolean = true;
+  mealsLoading: boolean = true;
+  supervised: SupervisedData | null = null;
+  meals: MealData[] = [];
 
   constructor() {
     makeAutoObservable(this);
@@ -18,7 +18,7 @@ export class SupervisionStore {
     this.supervisedLoading = true;
     supervised.then((supervised) => {
       this.supervised = supervised;
-      this.supervisedLoading = false;
+      runInAction(() => (this.supervisedLoading = false));
     });
   }
 

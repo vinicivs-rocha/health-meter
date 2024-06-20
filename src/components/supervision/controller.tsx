@@ -16,8 +16,6 @@ const StartSupervisionController = observer(
       viewModel.start({ userId });
     }, []);
 
-    console.log(store.supervisedLoading, store.mealsLoading);
-    console.log(store.supervised, store.meals);
     if (!store.supervisedLoading && !store.mealsLoading) {
       return null;
     }
