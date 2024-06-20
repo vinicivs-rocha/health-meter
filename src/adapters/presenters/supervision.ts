@@ -12,9 +12,11 @@ export class ExpoSupervisionPresenter implements SupervisionPresenter {
     throw new Error("Method not implemented.");
   }
   async presentSupervision(data: {
-    supervised: SupervisedData;
-    meals: MealData[];
+    supervised: Promise<SupervisedData>;
+    meals: Promise<MealData[]>;
   }): Promise<void> {
-    console.log(data);
+    await Promise.all([data.supervised, data.meals]);
+
+    console.log(data.supervised, data.meals);
   }
 }

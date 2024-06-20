@@ -13,8 +13,8 @@ type Input = {
 };
 
 export type StartSupervisionOutput = {
-  supervised: SupervisedData | null;
-  meals: MealData[];
+  supervised: Promise<SupervisedData>;
+  meals: Promise<MealData[]>;
 };
 
 @injectable()
@@ -32,23 +32,16 @@ export class StartSupervision
 
   async execute({ supervisedId }: Input) {
     try {
+      const supervised = this.supervisedRepository.findById(supervisedId);
+
+      const meals = this.mealRepository.findAllBySupervised(supervisedId);
+
       this.output = {
-        supervised: await this.supervisedRepository.findById(supervisedId),
-        meals: [],
+        supervised,
+        meals,
       };
 
-      if (!this.output.supervised) {
-        throw new FetchFailed("Supervised");
-      }
-
-      this.output.meals.concat(
-        ...(await this.mealRepository.findByIds(this.output.supervised.mealIds))
-      );
-
-      this.supervisionPresenter.presentSupervision({
-        supervised: this.output.supervised,
-        meals: this.output.meals,
-      });
+      this.supervisionPresenter.presentSupervision(this.output);
     } catch (error) {
       if (error instanceof FetchFailed) {
         this.supervisionPresenter.presentError(error.message);

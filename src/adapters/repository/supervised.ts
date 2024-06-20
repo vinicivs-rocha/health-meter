@@ -2,6 +2,7 @@ import {
   SupervisedData,
   SupervisedRepository,
 } from "@/domain/application/repositories/supervised";
+import { FetchFailed } from "@/domain/enterprise/exceptions/fetch-failed";
 import { Metric } from "@/domain/enterprise/value-objects/nutrient";
 import { SupabaseClient } from "@supabase/supabase-js";
 import { inject, injectable } from "inversify";
@@ -10,7 +11,7 @@ import { inject, injectable } from "inversify";
 export class SupabaseSupervisedRepository implements SupervisedRepository {
   @inject("SupabaseClient") private readonly supabase!: SupabaseClient;
 
-  async findById(id: string): Promise<SupervisedData | null> {
+  async findById(id: string): Promise<SupervisedData> {
     const {
       data: { session },
       error: sessionError,
@@ -19,6 +20,8 @@ export class SupabaseSupervisedRepository implements SupervisedRepository {
     if (sessionError) {
       throw sessionError;
     }
+
+    if (!session) throw new FetchFailed("Session not found");
 
     const { data: metricsData, error: metricsError } = await this.supabase
       .from("metrics")
@@ -50,16 +53,13 @@ export class SupabaseSupervisedRepository implements SupervisedRepository {
 
     if (mealIdsError) throw mealIdsError;
 
-    return (
-      session && {
-        id,
-        name: session.user.user_metadata.name,
-        photo: session.user.user_metadata.picture,
-        highlightedGoal: highlightedMetric?.goal,
-        highlightedIntake: highlightedMetric?.intake,
-        metrics,
-        mealIds: mealIds.map((meal: (typeof mealIds)[0]) => meal.id),
-      }
-    );
+    return {
+      id,
+      name: session.user.user_metadata.name,
+      photo: session.user.user_metadata.picture,
+      highlightedGoal: highlightedMetric?.goal,
+      highlightedIntake: highlightedMetric?.intake,
+      metrics,
+    };
   }
 }

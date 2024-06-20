@@ -8,9 +8,8 @@ export type SupervisedData = {
   highlightedGoal: Goal;
   highlightedIntake: number;
   metrics: Metric[];
-  mealIds: string[];
 };
 
 export interface SupervisedRepository {
-  findById(id: string): Promise<SupervisedData | null>;
+  findById(id: string): Promise<SupervisedData>;
 }
