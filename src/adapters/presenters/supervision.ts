@@ -1,10 +1,13 @@
 import { SupervisionPresenter } from "@/domain/application/presenters/supervision";
 import { MealData } from "@/domain/application/repositories/meal";
 import { SupervisedData } from "@/domain/application/repositories/supervised";
-import { injectable } from "inversify";
+import { SupervisionStore } from "@/stores/supervision";
+import { inject, injectable } from "inversify";
 
 @injectable()
 export class ExpoSupervisionPresenter implements SupervisionPresenter {
+  @inject("SupervisionStore") private readonly store!: SupervisionStore;
+
   presentError(message: string): Promise<void> {
     throw new Error("Method not implemented.");
   }
@@ -15,8 +18,7 @@ export class ExpoSupervisionPresenter implements SupervisionPresenter {
     supervised: Promise<SupervisedData>;
     meals: Promise<MealData[]>;
   }): Promise<void> {
-    await Promise.all([data.supervised, data.meals]);
-
-    console.log(data.supervised, data.meals);
+    this.store.loadSupervised(data.supervised);
+    this.store.loadMeals(data.meals);
   }
 }

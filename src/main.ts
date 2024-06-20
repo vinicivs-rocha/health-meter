@@ -19,6 +19,7 @@ import { SupervisionPresenter } from "./domain/application/presenters/supervisio
 import { ExpoSupervisionPresenter } from "./adapters/presenters/supervision";
 import { MealRepository } from "./domain/application/repositories/meal";
 import { SupabaseMealRepository } from "./adapters/repository/meal";
+import { SupervisionStore } from "./stores/supervision";
 
 const appInjector = new Container();
 
@@ -51,5 +52,10 @@ appInjector.bind<StartSupervision>("StartSupervision").to(StartSupervision);
 appInjector
   .bind<StartSupervisionViewModel>("StartSupervisionViewModel")
   .to(StartSupervisionViewModel);
+
+appInjector
+  .bind<SupervisionStore>("SupervisionStore")
+  .to(SupervisionStore)
+  .inSingletonScope();
 
 export { appInjector };
