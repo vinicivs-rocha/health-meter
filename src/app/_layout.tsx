@@ -2,7 +2,6 @@ import "reflect-metadata";
 import { AppInjectorProvider } from "@/contexts/app-injector";
 import { appInjector } from "@/main";
 import { supabase } from "@/utils/supabase";
-import { GOOGLE_WEB_CLIENT_ID } from "@env";
 import {
   Poppins_400Regular,
   Poppins_600SemiBold,
@@ -23,7 +22,7 @@ AppState.addEventListener("change", (state) => {
 });
 
 GoogleSignin.configure({
-  webClientId: GOOGLE_WEB_CLIENT_ID,
+  webClientId: process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID,
   offlineAccess: true,
 });
 
