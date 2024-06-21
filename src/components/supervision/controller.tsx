@@ -1,8 +1,8 @@
 import { StartSupervisionViewModel } from "@/adapters/view-models/start-supervision";
 import { SupervisionStore } from "@/stores/supervision";
-import { observer } from "mobx-react-lite";
-import { useEffect } from "react";
-import { ActivityIndicator, StyleSheet, View } from "react-native";
+import React, { useEffect } from "react";
+import { StyleSheet } from "react-native";
+import SupervisionHeader from "./header";
 
 interface StartSupervisionControllerProps {
   userId: string;
@@ -10,29 +10,21 @@ interface StartSupervisionControllerProps {
   store: SupervisionStore;
 }
 
-const StartSupervisionController = observer(
-  ({ userId, viewModel, store }: StartSupervisionControllerProps) => {
-    useEffect(() => {
-      viewModel.start({ userId });
-    }, []);
+export default function StartSupervisionController({
+  userId,
+  viewModel,
+  store,
+}: StartSupervisionControllerProps) {
+  useEffect(() => {
+    viewModel.start({ userId });
+  }, []);
 
-    if (!store.supervisedLoading && !store.mealsLoading) {
-      return null;
-    }
-
-    return (
-      <View style={styles.pageContainer}>
-        <ActivityIndicator
-          size="large"
-          color="#EAB308"
-          style={styles.spinner}
-        />
-      </View>
-    );
+  if (!store.supervisedLoading && !store.mealsLoading) {
+    return null;
   }
-);
 
-export default StartSupervisionController;
+  return <SupervisionHeader store={store} />;
+}
 
 const styles = StyleSheet.create({
   pageContainer: {
