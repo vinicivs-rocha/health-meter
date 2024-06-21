@@ -46,7 +46,12 @@ export default function Layout() {
             backgroundColor: "white",
           }}
         >
-          <Stack screenOptions={{ headerShown: false }} />
+          <Stack
+            screenOptions={{
+              headerShown: false,
+              contentStyle: { backgroundColor: "white" },
+            }}
+          />
         </SafeAreaView>
       </SafeAreaProvider>
     </AppInjectorProvider>
