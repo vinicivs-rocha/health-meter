@@ -25,7 +25,7 @@ export default function Bone({ style }: BoneProps) {
     Animated.loop(
       Animated.timing(x, {
         toValue: 1,
-        duration: 1000,
+        duration: 1500,
         useNativeDriver: true,
         easing: Easing.inOut(Easing.ease),
       })
@@ -33,12 +33,7 @@ export default function Bone({ style }: BoneProps) {
   }, []);
 
   return (
-    <View
-      style={[
-        style,
-        { borderRadius: 8, backgroundColor: "#908F8F", overflow: "hidden" },
-      ]}
-    >
+    <View style={[style, { backgroundColor: "#908F8F", overflow: "hidden" }]}>
       <View style={[{ flex: 1 }]}>
         <AnimatedLinearGradient
           colors={["#908F8F", "#CECECE", "#908F8F"]}
