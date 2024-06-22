@@ -1,29 +1,30 @@
 import { StartSupervisionViewModel } from "@/adapters/view-models/start-supervision";
-import { SupervisionStore } from "@/stores/supervision";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { StyleSheet } from "react-native";
-import SupervisionHeader from "./header";
+import { SupervisionViewProps } from "./view";
 
 interface StartSupervisionControllerProps {
   userId: string;
   viewModel: StartSupervisionViewModel;
-  store: SupervisionStore;
+  View: (
+    props: Pick<SupervisionViewProps, "startMealAdding">
+  ) => React.ReactNode;
 }
 
 export default function StartSupervisionController({
   userId,
   viewModel,
-  store,
+  View,
 }: StartSupervisionControllerProps) {
   useEffect(() => {
     viewModel.start({ userId });
   }, []);
 
-  if (!store.supervisedLoading && !store.mealsLoading) {
-    return null;
-  }
-
-  return <SupervisionHeader store={store} />;
+  return (
+    <>
+      <View startMealAdding={() => console.log("add meal")}></View>
+    </>
+  );
 }
 
 const styles = StyleSheet.create({
