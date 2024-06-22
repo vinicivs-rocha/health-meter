@@ -88,7 +88,6 @@ export default observer(SupervisionHeader);
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: -(StatusBar.currentHeight ?? 10),
     borderRadius: 8,
     padding: 20,
     paddingTop: (StatusBar.currentHeight ?? 10) + 20,

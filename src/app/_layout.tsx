@@ -42,14 +42,12 @@ export default function Layout() {
         <SafeAreaView
           style={{
             flex: 1,
-            paddingVertical: StatusBar.currentHeight,
             backgroundColor: "white",
           }}
         >
           <Stack
             screenOptions={{
-              statusBarTranslucent: true,
-              statusBarStyle: 'dark',
+              statusBarStyle: "light",
               headerShown: false,
               contentStyle: { backgroundColor: "white" },
             }}
