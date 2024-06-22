@@ -10,8 +10,9 @@ import {
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router/stack";
-import { AppState, SafeAreaView, StatusBar } from "react-native";
+import { AppState, SafeAreaView } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { StatusBar } from "expo-status-bar";
 
 AppState.addEventListener("change", (state) => {
   if (state === "active") {
@@ -38,6 +39,7 @@ export default function Layout() {
   }
   return (
     <AppInjectorProvider appInjector={appInjector}>
+      <StatusBar backgroundColor="transparent" translucent style="dark"></StatusBar>
       <SafeAreaProvider>
         <SafeAreaView
           style={{
@@ -47,7 +49,6 @@ export default function Layout() {
         >
           <Stack
             screenOptions={{
-              statusBarStyle: "light",
               headerShown: false,
               contentStyle: { backgroundColor: "white" },
             }}
