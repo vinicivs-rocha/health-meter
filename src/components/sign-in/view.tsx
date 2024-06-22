@@ -19,7 +19,7 @@ export default function SignInView({ login }: SignInViewProps) {
       </View>
       <Pressable onPress={login} style={styles.signInButton}>
         <SignInIcon />
-        <Text style={styles.signInButtonText}>Login with Google</Text>
+        <Text style={styles.signInButtonText}>Entre com Google</Text>
       </Pressable>
     </View>
   );
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: "white",
-    paddingVertical: "10%",
+    paddingVertical: 100,
     paddingHorizontal: "15%",
   },
   titleContainer: {
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   slogan: {
-    fontSize: 12,
+    fontSize: 16,
     fontFamily: "Poppins_400Regular",
     color: "#68717A",
     textAlign: "center",
