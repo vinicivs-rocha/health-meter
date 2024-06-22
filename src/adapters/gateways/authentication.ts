@@ -20,11 +20,13 @@ export class SupabaseAuthenticationGateway implements AuthenticationGateway {
       throw error;
     }
 
-    return session && {
-      photo: session.user.user_metadata.avatar_url,
-      name: session.user.user_metadata.name,
-      id: session.user.id!,
-    };
+    return (
+      session && {
+        photo: session.user.user_metadata.avatar_url,
+        name: session.user.user_metadata.name,
+        id: session.user.id,
+      }
+    );
   }
 
   async signIn(): Promise<UserData> {
