@@ -12,4 +12,8 @@ export class Metric {
   get name() {
     return this._name.charAt(0).toUpperCase() + this._name.slice(1);
   }
+
+  get intakePercentage() {
+    return Math.ceil(this.intake / this.goal.value) || 0;
+  }
 }
