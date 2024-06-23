@@ -39,11 +39,12 @@ export class SupabaseAuthenticationGateway implements AuthenticationGateway {
         token: userInfo.idToken,
       });
 
-      const { photo, id, name } = userInfo.user;
+      if (error) throw error;
+
       return {
-        id,
-        photo: photo!,
-        name: name!,
+        id: data.user!.id,
+        photo: data.user.user_metadata.avatar_url,
+        name: data.user.user_metadata.name,
       };
     }
     throw new Error("no ID token present!");
