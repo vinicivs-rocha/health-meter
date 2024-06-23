@@ -3,6 +3,7 @@ import {
   SupervisedRepository,
 } from "@/domain/application/repositories/supervised";
 import { FetchFailed } from "@/domain/enterprise/exceptions/fetch-failed";
+import { Goal } from "@/domain/enterprise/value-objects/goal";
 import { Metric } from "@/domain/enterprise/value-objects/nutrient";
 import { SupabaseClient } from "@supabase/supabase-js";
 import { inject, injectable } from "inversify";
@@ -31,6 +32,11 @@ export class SupabaseSupervisedRepository implements SupervisedRepository {
     if (metricsError) throw metricsError;
 
     const highlightedMetric = metricsData.find((metric) => metric.highlighted);
+    const highlightedMetricTacoField =
+      highlightedMetric?.taco_fields as unknown as {
+        unit: string;
+        field_name: string;
+      };
 
     const metrics = metricsData.map((metric: (typeof metricsData)[0]) => {
       const { field_name, unit } = metric.taco_fields as unknown as {
@@ -57,8 +63,13 @@ export class SupabaseSupervisedRepository implements SupervisedRepository {
       id,
       name: session.user.user_metadata.name,
       photo: session.user.user_metadata.picture,
-      highlightedGoal: highlightedMetric?.goal,
-      highlightedIntake: highlightedMetric?.intake,
+      highlightedMetric: new Metric(
+        highlightedMetric?.name,
+        highlightedMetricTacoField.field_name,
+        highlightedMetricTacoField.unit,
+        new Goal(highlightedMetric?.goal),
+        highlightedMetric?.intake
+      ),
       metrics,
     };
   }
