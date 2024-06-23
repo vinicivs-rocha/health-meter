@@ -3,11 +3,20 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { observer } from "mobx-react-lite";
 import React from "react";
-import { Image, StatusBar, StyleSheet, Text, View } from "react-native";
+import {
+  Image,
+  Pressable,
+  StatusBar,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import Bone from "../bone";
 
-interface SupervisionHeaderProps {
-  store: SupervisionStore;
+export interface SupervisionHeaderProps {
+  Store: SupervisionStore;
+  checkHistory: () => void;
+  logout: () => void;
 }
 
 function Skeleton() {
@@ -42,8 +51,12 @@ function Skeleton() {
   );
 }
 
-function SupervisionHeader({ store }: SupervisionHeaderProps) {
-  if (store.supervisedLoading) {
+function SupervisionHeader({
+  Store,
+  checkHistory,
+  logout,
+}: SupervisionHeaderProps) {
+  if (Store.supervisedLoading) {
     return <Skeleton />;
   }
 
@@ -57,27 +70,31 @@ function SupervisionHeader({ store }: SupervisionHeaderProps) {
       >
         <View style={styles.userDataContainer}>
           <Image
-            source={{ uri: store.supervised?.photo }}
+            source={{ uri: Store.supervised?.photo }}
             style={styles.userProfilePicture}
           ></Image>
           <View style={styles.titleContainer}>
             <Text style={styles.greettingText}>Olá,</Text>
-            <Text style={styles.greettingName}>{store.supervised?.name}</Text>
+            <Text style={styles.greettingName}>{Store.supervised?.name}</Text>
           </View>
         </View>
         <View style={styles.actionsContainer}>
-          <MaterialIcons
-            name="history"
-            size={20}
-            color={"68717A"}
-            disabled={true}
-          />
-          <MaterialIcons
-            name="exit-to-app"
-            size={20}
-            color={"68717A"}
-            disabled={true}
-          />
+          <Pressable onPress={checkHistory}>
+            <MaterialIcons
+              name="history"
+              size={20}
+              color={"68717A"}
+              disabled={true}
+            />
+          </Pressable>
+          <Pressable onPress={logout}>
+            <MaterialIcons
+              name="exit-to-app"
+              size={20}
+              color={"68717A"}
+              disabled={true}
+            />
+          </Pressable>
         </View>
       </LinearGradient>
     </>
@@ -117,7 +134,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: "Poppins_700Bold",
     color: "#343A40",
-    marginTop: -8,
+    marginTop: -12,
   },
   actionsContainer: {
     flexDirection: "row",

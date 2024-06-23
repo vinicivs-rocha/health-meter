@@ -6,9 +6,7 @@ import { SupervisionViewProps } from "./view";
 interface StartSupervisionControllerProps {
   userId: string;
   viewModel: StartSupervisionViewModel;
-  View: (
-    props: Pick<SupervisionViewProps, "startMealAdding">
-  ) => React.ReactNode;
+  View: (props: OmitUppercase<SupervisionViewProps>) => React.ReactNode;
 }
 
 export default function StartSupervisionController({
@@ -22,7 +20,12 @@ export default function StartSupervisionController({
 
   return (
     <>
-      <View startMealAdding={() => console.log("add meal")}></View>
+      <View
+        startMealAdding={() => console.log("add meal")}
+        checkHistory={() => console.log("checkHistory")}
+        logout={() => console.log("logout")}
+        startMetricGoalChange={() => console.log("change goal")}
+      ></View>
     </>
   );
 }
