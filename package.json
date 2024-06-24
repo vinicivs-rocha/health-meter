@@ -12,6 +12,7 @@
     "@expo-google-fonts/poppins": "^0.2.3",
     "@react-native-async-storage/async-storage": "1.23.1",
     "@react-native-google-signin/google-signin": "^12.2.1",
+    "@shopify/react-native-skia": "1.2.3",
     "@supabase/supabase-js": "^2.43.5",
     "@types/react-native-dotenv": "^0.2.2",
     "expo": "^51.0.14",
