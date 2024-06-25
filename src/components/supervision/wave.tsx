@@ -58,13 +58,18 @@ export default function WaveProgress({
 
   useEffect(() => {
     pathHeight.value = withTiming(progress, { duration: 2000 }, (finished) => {
-      if (finished) {
+      if (finished && progress <= 100) {
         wavesCoeficientStage.value = withRepeat(
           withTiming(2, { duration: 1000 }),
           -1,
           true
         );
         xStage.value = withRepeat(withTiming(2, { duration: 1000 }), -1, true);
+        return;
+      }
+      if (finished) {
+        wavesCoeficientStage.value = withTiming(1, { duration: 500 });
+        xStage.value = withTiming(1, { duration: 500 });
       }
     });
 
