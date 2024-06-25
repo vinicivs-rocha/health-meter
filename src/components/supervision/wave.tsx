@@ -1,13 +1,8 @@
-import {
-  Canvas,
-  FitBox,
-  Path,
-  rect,
-  usePathValue,
-} from "@shopify/react-native-skia";
+import { Canvas, FitBox, Path, rect, Skia } from "@shopify/react-native-skia";
 import { useEffect } from "react";
 import {
   interpolate,
+  useDerivedValue,
   useSharedValue,
   withRepeat,
   withTiming,
@@ -25,50 +20,57 @@ export default function WaveProgress({
   height,
 }: WaveProgressProps) {
   const pathHeight = useSharedValue(0);
-
   const wavesCoeficientStage = useSharedValue(0);
+  const xStage = useSharedValue(0);
 
-  const wavesCoeficient = interpolate(
-    wavesCoeficientStage.value,
-    [0, 1, 2],
-    [5, -5, 0]
-  );
+  const path = useDerivedValue(() => {
+    const wavesCoeficient = interpolate(
+      wavesCoeficientStage.value,
+      [0, 1, 2],
+      [progress / 10, 0, -progress / 10]
+    );
 
-  const path = usePathValue((path) => {
-    "worklet";
-    path.moveTo(0, pathHeight.value);
+    const xValue = interpolate(xStage.value, [0, 1, 2], [15, 0, -15]);
+
+    const path = Skia.Path.Make();
+    path.moveTo(-15 + xValue, 100 - pathHeight.value);
     path.cubicTo(
-      10,
-      pathHeight.value - wavesCoeficient,
-      40,
-      pathHeight.value - wavesCoeficient,
-      50,
-      pathHeight.value
+      -5 + xValue,
+      100 - (pathHeight.value - wavesCoeficient),
+      35 + xValue,
+      100 - (pathHeight.value - wavesCoeficient),
+      45 + xValue,
+      100 - pathHeight.value
     );
     path.cubicTo(
-      60,
-      pathHeight.value + wavesCoeficient,
-      90,
-      pathHeight.value + wavesCoeficient,
-      100,
-      pathHeight.value
+      75 + xValue,
+      100 - (pathHeight.value + wavesCoeficient),
+      105 + xValue,
+      100 - (pathHeight.value + wavesCoeficient),
+      115 + xValue,
+      100 - pathHeight.value
     );
-    path.lineTo(100, 100);
-    path.lineTo(0, 100);
+    path.lineTo(115 - xValue, 100);
+    path.lineTo(-15 + xValue, 100);
     path.close();
-  });
+    return path;
+  }, [pathHeight, wavesCoeficientStage, xStage]);
 
   useEffect(() => {
-    pathHeight.value = withTiming(progress, { duration: 3 }, (finished) => {
+    pathHeight.value = withTiming(progress, { duration: 2000 }, (finished) => {
       if (finished) {
-        wavesCoeficientStage.value = withTiming(2, { duration: 0.5 });
+        wavesCoeficientStage.value = withTiming(1, { duration: 500 });
+        xStage.value = withTiming(1, { duration: 500 });
       }
     });
+
     wavesCoeficientStage.value = withRepeat(
-      withTiming(1, { duration: 0.5 }),
+      withTiming(2, { duration: 500 }),
       -1,
       true
     );
+
+    xStage.value = withRepeat(withTiming(2, { duration: 500 }), -1, true);
   }, []);
 
   return (
@@ -84,13 +86,15 @@ export default function WaveProgress({
         },
       ]}
     >
-      <FitBox
-        src={rect(0, 0, 100, 100)}
-        dst={rect(0, 0, width, height)}
-        fit="fill"
-      >
-        <Path path={path} color={"#FDE047"} />
-      </FitBox>
+      {progress > 0 && (
+        <FitBox
+          src={rect(0, 0, 100, 100)}
+          dst={rect(0, 0, width, height)}
+          fit="fill"
+        >
+          <Path path={path} color={"#FDE047"} />
+        </FitBox>
+      )}
     </Canvas>
   );
 }
