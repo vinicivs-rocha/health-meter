@@ -10,6 +10,7 @@ import {
   View,
 } from "react-native";
 import Bone from "../bone";
+import WaveProgress from "./wave";
 
 export interface SupervisionHighlightedMetricsProps {
   Store: SupervisionStore;
@@ -69,7 +70,7 @@ function SupervisionHighlightedMetrics({
         <Text style={styles.metricNumber}>{highlightedMetric?.goal.value}</Text>
       </Pressable>
       <View
-        style={[styles.metricCointainer, { backgroundColor: "#FEF08A66" }]}
+        style={[styles.metricCointainer, { backgroundColor: "transparent" }]}
         onLayout={handleLayout}
       >
         <View style={styles.metricTitleContainer}>
@@ -78,15 +79,10 @@ function SupervisionHighlightedMetrics({
             Consumo de {highlightedMetric?.name.toLocaleLowerCase()}
           </Text>
           <Text style={styles.metricNumber}>{highlightedMetric?.intake}</Text>
-          <View
-            style={[
-              styles.metricFiller,
-              {
-                width: metricContainerWidth,
-                height:
-                  metricContainerHeight * highlightedMetric.intakePercentage,
-              },
-            ]}
+          <WaveProgress
+            height={metricContainerHeight}
+            width={metricContainerWidth}
+            progress={10}
           />
         </View>
       </View>
