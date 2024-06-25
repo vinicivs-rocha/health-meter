@@ -82,7 +82,7 @@ function SupervisionHighlightedMetrics({
           <WaveProgress
             height={metricContainerHeight}
             width={metricContainerWidth}
-            progress={highlightedMetric.intakePercentage + 90}
+            progress={highlightedMetric.intakePercentage}
           />
         </View>
       </View>
