@@ -1,4 +1,10 @@
-import { Canvas, Path, usePathValue } from "@shopify/react-native-skia";
+import {
+  Canvas,
+  FitBox,
+  Path,
+  rect,
+  usePathValue,
+} from "@shopify/react-native-skia";
 import { useEffect } from "react";
 import {
   interpolate,
@@ -53,13 +59,13 @@ export default function WaveProgress({
   });
 
   useEffect(() => {
-    pathHeight.value = withTiming(progress, { duration: 30000 }, (finished) => {
+    pathHeight.value = withTiming(progress, { duration: 3 }, (finished) => {
       if (finished) {
-        pathHeight.value = withTiming(2, { duration: 1000 });
+        wavesCoeficientStage.value = withTiming(2, { duration: 0.5 });
       }
     });
     wavesCoeficientStage.value = withRepeat(
-      withTiming(1, { duration: 500 }),
+      withTiming(1, { duration: 0.5 }),
       -1,
       true
     );
@@ -78,7 +84,13 @@ export default function WaveProgress({
         },
       ]}
     >
-      <Path path={path} color={"#FDE047"} />
+      <FitBox
+        src={rect(0, 0, 100, 100)}
+        dst={rect(0, 0, width, height)}
+        fit="fill"
+      >
+        <Path path={path} color={"#FDE047"} />
+      </FitBox>
     </Canvas>
   );
 }
