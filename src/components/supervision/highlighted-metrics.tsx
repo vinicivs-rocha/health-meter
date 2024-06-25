@@ -64,7 +64,7 @@ function SupervisionHighlightedMetrics({
         <View style={styles.metricTitleContainer}>
           <MaterialIcons name="analytics" size={15} color={"#343A40"} />
           <Text style={styles.metricText}>
-            Meta de {highlightedMetric?.name.toLocaleLowerCase()}
+            {highlightedMetric.name} diárias
           </Text>
         </View>
         <Text style={styles.metricNumber}>{highlightedMetric?.goal.value}</Text>
@@ -76,13 +76,13 @@ function SupervisionHighlightedMetrics({
         <View style={styles.metricTitleContainer}>
           <MaterialIcons name="fastfood" size={15} color={"#343A40"} />
           <Text style={styles.metricText}>
-            Consumo de {highlightedMetric?.name.toLocaleLowerCase()}
+            {highlightedMetric.name} consumidas
           </Text>
           <Text style={styles.metricNumber}>{highlightedMetric?.intake}</Text>
           <WaveProgress
             height={metricContainerHeight}
             width={metricContainerWidth}
-            progress={10}
+            progress={highlightedMetric.intakePercentage + 90}
           />
         </View>
       </View>
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     height: 20,
     borderRadius: 4,
     textAlign: "center",
-    fontSize: 16,
+    fontSize: 14,
     fontFamily: "Poppins_400Regular",
     color: "#343A40",
   },
