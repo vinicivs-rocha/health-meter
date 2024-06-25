@@ -14,6 +14,6 @@ export class Metric {
   }
 
   get intakePercentage() {
-    return Math.ceil(this.intake / this.goal.value) * 100 || 0;
+    return Math.ceil((this.intake / this.goal.value) * 100) || 0;
   }
 }
