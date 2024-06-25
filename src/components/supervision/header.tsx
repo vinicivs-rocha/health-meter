@@ -36,13 +36,13 @@ function Skeleton() {
           <MaterialIcons
             name="history"
             size={20}
-            color={"68717A"}
+            color={"#68717A"}
             disabled={true}
           />
           <MaterialIcons
             name="exit-to-app"
             size={20}
-            color={"68717A"}
+            color={"#68717A"}
             disabled={true}
           />
         </View>
@@ -83,7 +83,7 @@ function SupervisionHeader({
             <MaterialIcons
               name="history"
               size={20}
-              color={"68717A"}
+              color={"#343A40"}
               disabled={true}
             />
           </Pressable>
@@ -91,7 +91,7 @@ function SupervisionHeader({
             <MaterialIcons
               name="exit-to-app"
               size={20}
-              color={"68717A"}
+              color={"#343A40"}
               disabled={true}
             />
           </Pressable>
