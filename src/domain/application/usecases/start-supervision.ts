@@ -42,7 +42,9 @@ export class StartSupervision
       this.supervisionPresenter.setSupervisedLoading(false);
 
       this.supervisionPresenter.setMealsLoading(true);
-      const meals = await this.mealRepository.findAllBySupervised(supervisedId);
+      const meals = (
+        await this.mealRepository.findAllBySupervised(supervisedId)
+      ).filter(({ createdAt }) => createdAt.getDate() === new Date().getDate());
       this.output.meals = meals;
       this.supervisionPresenter.presentMeals({ meals });
       this.supervisionPresenter.setMealsLoading(false);
