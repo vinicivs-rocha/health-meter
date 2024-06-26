@@ -14,11 +14,20 @@ export class ExpoSupervisionPresenter implements SupervisionPresenter {
   presentCalorieGoal(goal: number): Promise<void> {
     throw new Error("Method not implemented.");
   }
-  async presentSupervision(data: {
-    supervised: Promise<SupervisedData>;
-    meals: Promise<MealData[]>;
-  }): Promise<void> {
-    this.store.loadSupervised(data.supervised);
-    this.store.loadMeals(data.meals);
+
+  async presentSupervised(data: { supervised: SupervisedData }): Promise<void> {
+    this.store.supervised = data.supervised;
+  }
+
+  async presentMeals(data: { meals: MealData[] }): Promise<void> {
+    this.store.meals = data.meals;
+  }
+
+  async setMealsLoading(state: boolean): Promise<void> {
+    this.store.mealsLoading = state;
+  }
+
+  async setSupervisedLoading(state: boolean): Promise<void> {
+    this.store.supervisedLoading = state;
   }
 }

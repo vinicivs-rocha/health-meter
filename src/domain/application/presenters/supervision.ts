@@ -2,10 +2,10 @@ import type { MealData } from "../repositories/meal";
 import type { SupervisedData } from "../repositories/supervised";
 
 export interface SupervisionPresenter {
-  presentSupervision(data: {
-    supervised: Promise<SupervisedData>;
-    meals: Promise<MealData[]>;
-  }): Promise<void>;
+  setSupervisedLoading(state: boolean): Promise<void>;
+  setMealsLoading(state: boolean): Promise<void>;
+  presentSupervised(data: { supervised: SupervisedData }): Promise<void>;
+  presentMeals(data: { meals: MealData[] }): Promise<void>;
   presentError(message: string): Promise<void>;
   presentCalorieGoal(goal: number): Promise<void>;
 }
