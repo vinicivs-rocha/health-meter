@@ -2,6 +2,7 @@ import { StartSupervisionViewModel } from "@/adapters/view-models/start-supervis
 import StartSupervisionController from "@/components/supervision/controller";
 import SupervisionHeader from "@/components/supervision/header";
 import HighlightedMetrics from "@/components/supervision/highlighted-metrics";
+import SupervisionMeals from "@/components/supervision/meals";
 import SupervisionView from "@/components/supervision/view";
 import { useAppInjector } from "@/hooks/app-injector";
 import { SupervisionStore } from "@/stores/supervision";
@@ -31,7 +32,9 @@ export default function StartSupervisionPage() {
           HighlightedMetrics={(props) => (
             <HighlightedMetrics {...props} Store={store} />
           )}
-          Meals={<></>}
+          Meals={(props) => (
+            <SupervisionMeals {...props} Store={store}></SupervisionMeals>
+          )}
           {...props}
         ></SupervisionView>
       )}
