@@ -3,7 +3,7 @@ import {
   MealRepository,
 } from "@/domain/application/repositories/meal";
 import { SupabaseClient } from "@supabase/supabase-js";
-import { id, inject, injectable } from "inversify";
+import { inject, injectable } from "inversify";
 
 @injectable()
 export class SupabaseMealRepository implements MealRepository {
@@ -16,16 +16,17 @@ export class SupabaseMealRepository implements MealRepository {
   async findAllBySupervised(supervisedId: string): Promise<MealData[]> {
     const { data, error } = await this.supabase
       .from("meals")
-      .select("id, name")
+      .select("id, name, created_at")
       .eq("user_id", supervisedId);
 
     if (error) {
       throw error;
     }
 
-    return data.map(({ id, name }) => ({
+    return data.map(({ id, name, created_at }) => ({
       id,
       name,
+      createdAt: new Date(created_at),
       nutrionalValues: [],
     }));
   }
@@ -33,16 +34,17 @@ export class SupabaseMealRepository implements MealRepository {
   async findByIds(ids: string[]) {
     const { data, error } = await this.supabase
       .from("meals")
-      .select("id, name")
+      .select("id, name, created_at")
       .in("id", ids);
 
     if (error) {
       throw error;
     }
 
-    return data.map(({ id, name }) => ({
+    return data.map(({ id, name, created_at }) => ({
       id,
       name,
+      createdAt: new Date(created_at),
       nutrionalValues: [],
     }));
   }
