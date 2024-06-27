@@ -1,5 +1,8 @@
 import { SupervisionStore } from "@/stores/supervision";
 import { observer } from "mobx-react-lite";
+import { ActivityIndicator, FlatList, StyleSheet, View } from "react-native";
+import Meal from "./meal";
+import MealContent from "./meal-content";
 
 export interface SupervisionMealsProps {
   Store: SupervisionStore;
@@ -7,8 +10,52 @@ export interface SupervisionMealsProps {
   startMealUpdating: (mealId: string) => void;
 }
 
-function SupervisionMeals({}: SupervisionMealsProps) {
-  return <></>;
+function SupervisionMeals({
+  Store,
+  deleteMeal,
+  startMealUpdating,
+}: SupervisionMealsProps) {
+  if (Store.mealsLoading) {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator color={`#FDE047`} size={50} />
+      </View>
+    );
+  }
+  return (
+    <View style={styles.container}>
+      <FlatList
+        style={styles.mealsList}
+        data={Store.meals}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item: { name, createdAt } }) => (
+          <Meal
+            name={name}
+            createdAt={createdAt}
+            deleteMeal={deleteMeal}
+            startMealUpdating={startMealUpdating}
+          >
+            <MealContent
+              intake={200}
+              highlightedMetricUnit={Store.supervised?.highlightedMetric.unit}
+              loading={Store.supervisedLoading || Store.mealsLoading}
+            />
+          </Meal>
+        )}
+      />
+    </View>
+  );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: `center`,
+    justifyContent: `center`,
+  },
+  mealsList: {
+    width: `100%`,
+  },
+});
 
 export default observer(SupervisionMeals);

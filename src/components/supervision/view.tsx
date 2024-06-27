@@ -29,7 +29,7 @@ export default function SupervisionView({
   startMealUpdating,
 }: SupervisionViewProps) {
   return (
-    <View>
+    <View style={styles.container}>
       <View>
         <Header checkHistory={checkHistory} logout={logout} />
       </View>
@@ -38,7 +38,7 @@ export default function SupervisionView({
       </View>
       <View style={styles.mealsContainer}>
         <Text style={styles.mealsText}>Refeições</Text>
-        <View>
+        <View style={styles.mealsListContainer}>
           <Meals deleteMeal={deleteMeal} startMealUpdating={startMealAdding} />
         </View>
       </View>
@@ -52,11 +52,18 @@ export default function SupervisionView({
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   mealsContainer: {
     padding: 20,
+    flex: 1,
   },
   mealsText: {
     fontSize: 20,
     fontFamily: "Poppins_600SemiBold",
+  },
+  mealsListContainer: {
+    flex: 1,
   },
 });
