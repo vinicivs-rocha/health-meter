@@ -3,8 +3,8 @@ import type { Goal } from "./goal";
 export class Metric {
   constructor(
     private _name: string,
-    private _fieldName: string,
-    private _unit: string,
+    public fieldName: string,
+    public unit: string,
     public readonly goal: Goal,
     public readonly intake = 0
   ) {}
