@@ -13,6 +13,7 @@ import { Stack } from "expo-router/stack";
 import { AppState, SafeAreaView } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 AppState.addEventListener("change", (state) => {
   if (state === "active") {
@@ -41,19 +42,21 @@ export default function Layout() {
     <AppInjectorProvider appInjector={appInjector}>
       <StatusBar backgroundColor="transparent" translucent style="dark"></StatusBar>
       <SafeAreaProvider>
-        <SafeAreaView
-          style={{
-            flex: 1,
-            backgroundColor: "white",
-          }}
-        >
-          <Stack
-            screenOptions={{
-              headerShown: false,
-              contentStyle: { backgroundColor: "white" },
+        <GestureHandlerRootView>
+          <SafeAreaView
+            style={{
+              flex: 1,
+              backgroundColor: "white",
             }}
-          />
-        </SafeAreaView>
+          >
+            <Stack
+              screenOptions={{
+                headerShown: false,
+                contentStyle: { backgroundColor: "white" },
+              }}
+            />
+          </SafeAreaView>
+        </GestureHandlerRootView>
       </SafeAreaProvider>
     </AppInjectorProvider>
   );
