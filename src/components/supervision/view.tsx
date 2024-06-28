@@ -39,7 +39,10 @@ export default function SupervisionView({
       <View style={styles.mealsContainer}>
         <Text style={styles.mealsText}>Refeições</Text>
         <View style={styles.mealsListContainer}>
-          <Meals deleteMeal={deleteMeal} startMealUpdating={startMealAdding} />
+          <Meals
+            deleteMeal={deleteMeal}
+            startMealUpdating={startMealUpdating}
+          />
         </View>
       </View>
       <View>
@@ -56,10 +59,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   mealsContainer: {
-    padding: 20,
     flex: 1,
+    gap: 12,
   },
   mealsText: {
+    padding: 20,
+    paddingBottom: 0,
     fontSize: 20,
     fontFamily: "Poppins_600SemiBold",
   },
