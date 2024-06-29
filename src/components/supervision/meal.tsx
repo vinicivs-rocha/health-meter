@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
     position: `absolute`,
     top: 0,
     right: 20,
-    backgroundColor: `#FF0000`,
+    backgroundColor: `#FECACA`,
     justifyContent: `center`,
     alignItems: `center`,
     borderRadius: 8,

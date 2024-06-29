@@ -75,7 +75,6 @@ export default function SupervisionView({
         <GestureDetector gesture={gesture}>
           <Animated.View
             style={[styles.addMealButton, addMealButtonAnimatedStyle]}
-            onLayout={(event) => console.log(event.nativeEvent.layout.height)}
           >
             <MaterialIcons name="add" size={28} color="#343A40" />
             <Text style={styles.addMealButtonText}>Adicionar refeição</Text>
