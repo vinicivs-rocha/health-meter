@@ -1,8 +1,16 @@
-import { PropsWithChildren } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import Animated from "react-native-reanimated";
+import { MaterialIcons } from "@expo/vector-icons";
+import React, { PropsWithChildren, useState } from "react";
+import { Platform, Pressable, StyleSheet, Text, View } from "react-native";
+import { Gesture, GestureDetector } from "react-native-gesture-handler";
+import Animated, {
+  ReduceMotion,
+  useAnimatedStyle,
+  useSharedValue,
+  withDecay,
+} from "react-native-reanimated";
 
 interface MealProps {
+  id: string;
   name: string;
   createdAt: Date;
   deleteMeal: (mealId: string) => void;
@@ -10,34 +18,106 @@ interface MealProps {
 }
 
 export default function Meal({
+  id,
   name,
   createdAt,
   children,
+  deleteMeal,
+  startMealUpdating,
 }: PropsWithChildren<MealProps>) {
+  const x = useSharedValue(0);
+  const [containerHeight, setContainerHeight] = useState(0);
+
+  const mealContainerAnimatedStyles = useAnimatedStyle(() => ({
+    transform: [{ translateX: x.value }],
+  }));
+
+  const menuAnimatedStyles = useAnimatedStyle(() => ({
+    width: Math.max(Math.abs(x.value) + 10, 60),
+    opacity: Math.abs(x.value / 50),
+  }));
+
+  const gesture = Gesture.Pan()
+    .onChange(({ changeX }) => {
+      x.value += changeX;
+    })
+    .onFinalize(({ velocityX }) => {
+      x.value = withDecay({
+        velocity: velocityX,
+        deceleration: 0.998,
+        clamp: [-50, 0],
+        velocityFactor: 0.4,
+        rubberBandEffect: true,
+        rubberBandFactor: 1,
+        reduceMotion: ReduceMotion.System,
+      });
+    });
   return (
-    <Animated.View style={styles.container}>
-      <View style={styles.mealTitle}>
-        <Text style={styles.mealName}>{name}</Text>
-        <Text style={styles.mealCreationDate}>
-          {createdAt.toLocaleTimeString("pt-BR", {
-            timeStyle: `short`,
-          })}
-        </Text>
-      </View>
-      {children}
-    </Animated.View>
+    <View
+      style={styles.container}
+      onLayout={(event) => {
+        const { height } = event.nativeEvent.layout;
+        setContainerHeight(height - 8);
+      }}
+    >
+      <GestureDetector gesture={gesture}>
+        <Animated.View
+          style={[styles.mealContainer, mealContainerAnimatedStyles]}
+        >
+          <Pressable onPress={() => startMealUpdating(id)}>
+            <View style={styles.mealTitle}>
+              <Text style={styles.mealName}>{name}</Text>
+              <Text style={styles.mealCreationDate}>
+                {createdAt.toLocaleTimeString("pt-BR", {
+                  timeStyle: `short`,
+                })}
+              </Text>
+            </View>
+            {children}
+          </Pressable>
+        </Animated.View>
+      </GestureDetector>
+      <Animated.View
+        style={[
+          styles.deleteButtonContainer,
+          menuAnimatedStyles,
+          { height: containerHeight },
+        ]}
+      >
+        <Pressable style={styles.deleteButton} onPress={() => deleteMeal(id)}>
+          <MaterialIcons name="delete" size={24} color="#343A40" />
+        </Pressable>
+      </Animated.View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+  },
+  mealContainer: {
+    marginHorizontal: 20,
+    marginTop: 0,
+    marginBottom: 8,
     backgroundColor: `white`,
-    margin: 2,
     padding: 16,
     gap: 4,
     borderRadius: 8,
-    shadowColor: `#00000040`,
-    elevation: 24,
+    shadowColor: `#000000bf`,
+    ...Platform.select({
+      ios: {
+        shadowOffset: {
+          width: 1,
+          height: 2,
+        },
+        shadowOpacity: 0.7,
+        shadowRadius: 8,
+      },
+      android: {
+        elevation: 8,
+      },
+    }),
   },
   mealTitle: {
     flex: 1,
@@ -48,9 +128,27 @@ const styles = StyleSheet.create({
   mealName: {
     fontSize: 16,
     fontFamily: `Poppins_600SemiBold`,
+    color: `#343A40`,
   },
   mealCreationDate: {
     fontSize: 12,
     fontFamily: `Poppins_600SemiBold`,
+    color: "#343A40",
+  },
+  deleteButtonContainer: {
+    position: `absolute`,
+    top: 0,
+    right: 20,
+    backgroundColor: `#FF0000`,
+    justifyContent: `center`,
+    alignItems: `center`,
+    borderRadius: 8,
+    zIndex: -1,
+  },
+  deleteButton: {
+    flex: 1,
+    width: `100%`,
+    justifyContent: `center`,
+    alignItems: `center`,
   },
 });
