@@ -28,8 +28,9 @@ function SupervisionMeals({
         style={styles.mealsList}
         data={Store.meals}
         keyExtractor={(item) => item.id}
-        renderItem={({ item: { name, createdAt } }) => (
+        renderItem={({ item: { name, createdAt, id } }) => (
           <Meal
+            id={id}
             name={name}
             createdAt={createdAt}
             deleteMeal={deleteMeal}
