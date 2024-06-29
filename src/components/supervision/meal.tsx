@@ -39,6 +39,7 @@ export default function Meal({
 
   const gesture = Gesture.Pan()
     .onChange(({ changeX }) => {
+      if (x.value + changeX > 0) return;
       x.value += changeX;
     })
     .onFinalize(({ velocityX }) => {
@@ -48,7 +49,7 @@ export default function Meal({
         clamp: [-50, 0],
         velocityFactor: 0.4,
         rubberBandEffect: true,
-        rubberBandFactor: 4,
+        rubberBandFactor: 1,
         reduceMotion: ReduceMotion.System,
       });
     });
