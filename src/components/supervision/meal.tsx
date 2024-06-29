@@ -48,7 +48,7 @@ export default function Meal({
         clamp: [-50, 0],
         velocityFactor: 0.4,
         rubberBandEffect: true,
-        rubberBandFactor: 1,
+        rubberBandFactor: 4,
         reduceMotion: ReduceMotion.System,
       });
     });
