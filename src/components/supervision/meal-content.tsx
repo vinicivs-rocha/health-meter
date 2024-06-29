@@ -25,5 +25,6 @@ const styles = StyleSheet.create({
   container: {
     width: "50%",
     fontFamily: `Poppins_400Regular`,
+    color: `#68717A`,
   },
 });
