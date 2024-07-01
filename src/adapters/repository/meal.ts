@@ -40,7 +40,7 @@ export class SupabaseMealRepository implements MealRepository {
           id,
           name,
           createdAt: new Date(created_at),
-          nutrionalValues: nutrionalValuesData.map(
+          metricIntakes: nutrionalValuesData.map(
             ({ intake, metric_id }) => new MetricIntake(metric_id, intake)
           ),
         };
@@ -62,7 +62,7 @@ export class SupabaseMealRepository implements MealRepository {
       id,
       name,
       createdAt: new Date(created_at),
-      nutrionalValues: [],
+      metricIntakes: [],
     }));
   }
 }
