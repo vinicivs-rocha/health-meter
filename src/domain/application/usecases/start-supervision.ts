@@ -33,21 +33,29 @@ export class StartSupervision
   async execute({ supervisedId }: Input) {
     try {
       this.supervisionPresenter.setSupervisedLoading(true);
-      const supervised = await this.supervisedRepository.findById(supervisedId);
-      this.output = {
-        supervised,
-        meals: [],
-      };
-      this.supervisionPresenter.presentSupervised({ supervised });
-      this.supervisionPresenter.setSupervisedLoading(false);
-
       this.supervisionPresenter.setMealsLoading(true);
-      const meals = (
-        await this.mealRepository.findAllBySupervised(supervisedId)
-      ).filter(({ createdAt }) => createdAt.getDate() === new Date().getDate());
-      this.output.meals = meals;
-      this.supervisionPresenter.presentMeals({ meals });
-      this.supervisionPresenter.setMealsLoading(false);
+      this.supervisedRepository
+        .findById(supervisedId)
+        .then((supervised) => {
+          this.supervisionPresenter.presentSupervised({ supervised });
+          this.supervisionPresenter.setSupervisedLoading(false);
+        })
+        .catch((error) => {
+          throw error;
+        });
+
+      this.mealRepository
+        .findAllBySupervised(supervisedId)
+        .then((meals) => {
+          const todayMeals = meals.filter(
+            ({ createdAt }) => createdAt.getDate() === new Date().getDate()
+          );
+          this.supervisionPresenter.presentMeals({ meals: todayMeals });
+          this.supervisionPresenter.setMealsLoading(false);
+        })
+        .catch((error) => {
+          throw error;
+        });
     } catch (error) {
       if (error instanceof FetchFailed) {
         this.supervisionPresenter.presentError(error.message);
