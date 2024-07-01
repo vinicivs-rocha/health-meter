@@ -6,6 +6,7 @@ import Animated, {
   ReduceMotion,
   useAnimatedStyle,
   useSharedValue,
+  withClamp,
   withDecay,
 } from "react-native-reanimated";
 
@@ -39,19 +40,25 @@ export default function Meal({
 
   const gesture = Gesture.Pan()
     .onChange(({ changeX }) => {
-      if (x.value + changeX > 0) return;
+      if (x.value + changeX >= 0) return (x.value = 0);
       x.value += changeX;
     })
     .onFinalize(({ velocityX }) => {
-      x.value = withDecay({
-        velocity: velocityX,
-        deceleration: 0.998,
-        clamp: [-50, 0],
-        velocityFactor: 0.4,
-        rubberBandEffect: true,
-        rubberBandFactor: 1,
-        reduceMotion: ReduceMotion.System,
-      });
+      x.value = withClamp(
+        {
+          max: 0,
+          min: -300,
+        },
+        withDecay({
+          velocity: velocityX,
+          deceleration: 0.998,
+          clamp: [-50, 0],
+          velocityFactor: 0.4,
+          rubberBandEffect: true,
+          rubberBandFactor: 1,
+          reduceMotion: ReduceMotion.System,
+        })
+      );
     });
   return (
     <View

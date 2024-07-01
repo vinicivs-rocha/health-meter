@@ -36,18 +36,7 @@ function SupervisionMeals({
             deleteMeal={deleteMeal}
             startMealUpdating={startMealUpdating}
           >
-            <MealContent
-              intake={
-                metricIntakes
-                  .filter(
-                    ({ metricId }) =>
-                      metricId === Store.supervised?.highlightedMetric.id
-                  )
-                  .at(0)?.intake ?? 0
-              }
-              highlightedMetricUnit={Store.supervised?.highlightedMetric.unit}
-              loading={Store.supervisedLoading || Store.mealsLoading}
-            />
+            <MealContent Store={Store} mealId={id} />
           </Meal>
         )}
       />
