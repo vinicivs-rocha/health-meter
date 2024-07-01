@@ -28,7 +28,7 @@ function SupervisionMeals({
         style={styles.mealsList}
         data={Store.meals}
         keyExtractor={(item) => item.id}
-        renderItem={({ item: { name, createdAt, id } }) => (
+        renderItem={({ item: { name, createdAt, id, metricIntakes } }) => (
           <Meal
             id={id}
             name={name}
@@ -37,7 +37,14 @@ function SupervisionMeals({
             startMealUpdating={startMealUpdating}
           >
             <MealContent
-              intake={200}
+              intake={
+                metricIntakes
+                  .filter(
+                    ({ metricId }) =>
+                      metricId === Store.supervised?.highlightedMetric.id
+                  )
+                  .at(0)?.intake ?? 0
+              }
               highlightedMetricUnit={Store.supervised?.highlightedMetric.unit}
               loading={Store.supervisedLoading || Store.mealsLoading}
             />
