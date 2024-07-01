@@ -23,7 +23,7 @@ export default function StartSupervisionController({
       <View
         startMealAdding={() => console.log("add meal")}
         checkHistory={() => console.log("checkHistory")}
-        logout={() => console.log("logout")}
+        logout={() => viewModel.logout()}
         startMetricGoalChange={() => console.log("change goal")}
         deleteMeal={(mealId: string) => console.log(`delete meal ${mealId}`)}
         startMealUpdating={(mealId: string) =>

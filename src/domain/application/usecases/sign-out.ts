@@ -1,14 +1,16 @@
+import { inject, injectable } from "inversify";
 import type { Usecase } from "../../../core/usecases/usecase";
 import type { AuthenticationGateway } from "../gateways/authentication";
 import type { AuthenticationPresenter } from "../presenters/authentication";
 
+@injectable()
 export class SignOut implements Usecase<[], undefined> {
   output: undefined;
 
-  constructor(
-    private readonly authenticationGateway: AuthenticationGateway,
-    private readonly authenticationPresenter: AuthenticationPresenter
-  ) {}
+  @inject("AuthenticationGateway")
+  private readonly authenticationGateway!: AuthenticationGateway;
+  @inject("AuthenticationPresenter")
+  private readonly authenticationPresenter!: AuthenticationPresenter;
 
   async execute(): Promise<void> {
     try {

@@ -50,7 +50,7 @@ export class SupabaseAuthenticationGateway implements AuthenticationGateway {
     throw new Error("no ID token present!");
   }
 
-  signOut(): Promise<void> {
-    throw new Error("Method not implemented.");
+  async signOut(): Promise<void> {
+    await this.supabase.auth.signOut();
   }
 }

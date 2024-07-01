@@ -4,22 +4,23 @@ import { ExpoRouter } from "expo-router/types/expo-router";
 import { Container } from "inversify";
 import { SupabaseAuthenticationGateway } from "./adapters/gateways/authentication";
 import { ExpoAuthenticationPresenter } from "./adapters/presenters/authentication";
+import { ExpoSupervisionPresenter } from "./adapters/presenters/supervision";
+import { SupabaseMealRepository } from "./adapters/repository/meal";
+import { SupabaseSupervisedRepository } from "./adapters/repository/supervised";
 import { IndexViewModel } from "./adapters/view-models";
 import { SignInViewModel } from "./adapters/view-models/sign-in";
+import { StartSupervisionViewModel } from "./adapters/view-models/start-supervision";
 import { AuthenticationGateway } from "./domain/application/gateways/authentication";
 import { AuthenticationPresenter } from "./domain/application/presenters/authentication";
+import { SupervisionPresenter } from "./domain/application/presenters/supervision";
+import { MealRepository } from "./domain/application/repositories/meal";
+import { SupervisedRepository } from "./domain/application/repositories/supervised";
 import { Authenticate } from "./domain/application/usecases/authenticate";
 import { SignIn } from "./domain/application/usecases/sign-in";
-import { supabase } from "./utils/supabase";
+import { SignOut } from "./domain/application/usecases/sign-out";
 import { StartSupervision } from "./domain/application/usecases/start-supervision";
-import { StartSupervisionViewModel } from "./adapters/view-models/start-supervision";
-import { SupabaseSupervisedRepository } from "./adapters/repository/supervised";
-import { SupervisedRepository } from "./domain/application/repositories/supervised";
-import { SupervisionPresenter } from "./domain/application/presenters/supervision";
-import { ExpoSupervisionPresenter } from "./adapters/presenters/supervision";
-import { MealRepository } from "./domain/application/repositories/meal";
-import { SupabaseMealRepository } from "./adapters/repository/meal";
 import { SupervisionStore } from "./stores/supervision";
+import { supabase } from "./utils/supabase";
 
 const appInjector = new Container();
 
@@ -58,4 +59,7 @@ appInjector
   .to(SupervisionStore)
   .inSingletonScope();
 
+appInjector.bind<SignOut>("SignOut").to(SignOut);
+
 export { appInjector };
+
