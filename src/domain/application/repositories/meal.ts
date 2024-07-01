@@ -4,7 +4,7 @@ export type MealData = {
   id: string;
   name: string;
   createdAt: Date;
-  nutrionalValues: MetricIntake[];
+  metricIntakes: MetricIntake[];
 };
 
 export interface MealRepository {

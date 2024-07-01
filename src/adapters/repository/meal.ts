@@ -2,6 +2,7 @@ import {
   MealData,
   MealRepository,
 } from "@/domain/application/repositories/meal";
+import { MetricIntake } from "@/domain/enterprise/value-objects/metric-intake";
 import { SupabaseClient } from "@supabase/supabase-js";
 import { inject, injectable } from "inversify";
 
@@ -14,21 +15,37 @@ export class SupabaseMealRepository implements MealRepository {
   }
 
   async findAllBySupervised(supervisedId: string): Promise<MealData[]> {
-    const { data, error } = await this.supabase
+    const { data: mealsData, error: mealsError } = await this.supabase
       .from("meals")
       .select("id, name, created_at")
       .eq("user_id", supervisedId);
 
-    if (error) {
-      throw error;
+    if (mealsError) {
+      throw mealsError;
     }
 
-    return data.map(({ id, name, created_at }) => ({
-      id,
-      name,
-      createdAt: new Date(created_at),
-      nutrionalValues: [],
-    }));
+    return await Promise.all(
+      mealsData.map(async ({ id, name, created_at }) => {
+        const { data: nutrionalValuesData, error: nutrionalValuesError } =
+          await this.supabase
+            .from("meal_metrics")
+            .select("intake, metric_id")
+            .eq("meal_id", id);
+
+        if (nutrionalValuesError) {
+          throw nutrionalValuesError;
+        }
+
+        return {
+          id,
+          name,
+          createdAt: new Date(created_at),
+          nutrionalValues: nutrionalValuesData.map(
+            ({ intake, metric_id }) => new MetricIntake(metric_id, intake)
+          ),
+        };
+      })
+    );
   }
 
   async findByIds(ids: string[]) {
