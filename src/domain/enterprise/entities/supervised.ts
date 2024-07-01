@@ -2,7 +2,7 @@ import { randomUUID } from "crypto";
 import { Entity } from "../../../core/entities/entity";
 import type { Optional } from "../../../core/types/optional";
 import type { Goal } from "../value-objects/goal";
-import type { Metric } from "../value-objects/nutrient";
+import type { Metric } from "../value-objects/metric";
 
 export type SupervisedProps = {
   id: string;

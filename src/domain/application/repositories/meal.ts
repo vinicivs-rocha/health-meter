@@ -1,10 +1,10 @@
-import type { NutritionalValue } from "../../enterprise/value-objects/nutritional-value";
+import { MetricIntake } from "@/domain/enterprise/value-objects/metric-intake";
 
 export type MealData = {
   id: string;
   name: string;
   createdAt: Date;
-  nutrionalValues: NutritionalValue[];
+  nutrionalValues: MetricIntake[];
 };
 
 export interface MealRepository {

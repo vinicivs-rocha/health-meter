@@ -1,4 +1,4 @@
-import type { Metric } from "../../enterprise/value-objects/nutrient";
+import type { Metric } from "../../enterprise/value-objects/metric";
 
 export type SupervisedData = {
   id: string;
