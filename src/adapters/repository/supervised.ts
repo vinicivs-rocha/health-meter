@@ -4,7 +4,7 @@ import {
 } from "@/domain/application/repositories/supervised";
 import { FetchFailed } from "@/domain/enterprise/exceptions/fetch-failed";
 import { Goal } from "@/domain/enterprise/value-objects/goal";
-import { Metric } from "@/domain/enterprise/value-objects/nutrient";
+import { Metric } from "@/domain/enterprise/value-objects/metric";
 import { SupabaseClient } from "@supabase/supabase-js";
 import { inject, injectable } from "inversify";
 
@@ -26,7 +26,9 @@ export class SupabaseSupervisedRepository implements SupervisedRepository {
 
     const { data: metricsData, error: metricsError } = await this.supabase
       .from("metrics")
-      .select("name, goal, intake, highlighted, taco_fields (unit, field_name)")
+      .select(
+        "id, name, goal, intake, highlighted, taco_fields (unit, field_name)"
+      )
       .eq("user_id", id);
 
     if (metricsError) throw metricsError;
@@ -64,6 +66,7 @@ export class SupabaseSupervisedRepository implements SupervisedRepository {
       name: session.user.user_metadata.name,
       photo: session.user.user_metadata.picture,
       highlightedMetric: new Metric(
+        highlightedMetric?.id,
         highlightedMetric?.name,
         highlightedMetricTacoField.field_name,
         highlightedMetricTacoField.unit,

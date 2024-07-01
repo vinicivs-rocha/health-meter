@@ -2,6 +2,7 @@ import type { Goal } from "./goal";
 
 export class Metric {
   constructor(
+    public id: string,
     private _name: string,
     public fieldName: string,
     public unit: string,
