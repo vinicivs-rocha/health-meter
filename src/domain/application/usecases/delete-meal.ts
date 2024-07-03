@@ -1,4 +1,5 @@
-import { Metric } from "@/domain/enterprise/value-objects/metric";
+import { Meal } from "@/domain/enterprise/entities/meal";
+import { Supervised } from "@/domain/enterprise/entities/supervised";
 import { Usecase } from "@core/usecases/usecase";
 import { inject } from "inversify";
 import { SupervisionPresenter } from "../presenters/supervision";
@@ -30,47 +31,57 @@ export class DeleteMeal implements Usecase<Input, DeleteMealOutput> {
 
   async execute(input: Input): Promise<void> {
     this.supervisionPresenter.setMealDeletionLoading(true, input.mealId);
+    this.supervisionPresenter.setSupervisedLoading(true);
 
-    const meal = await this.mealRepository.findById(input.mealId);
-    const supervised = await this.supervisedRepository.findById(
+    const mealData = await this.mealRepository.findById(input.mealId);
+    const supervisedData = await this.supervisedRepository.findById(
       input.supervisedId
     );
+    const supervisedMeals = await this.mealRepository.findAllBySupervised(
+      supervisedData.id
+    );
 
-    const meals = await this.mealRepository.delete({ mealId: input.mealId });
-
-    this.supervisionPresenter.setMealDeletionLoading(false, input.mealId);
-    this.supervisionPresenter.presentMeals({ meals });
-
-    const newMetrics = supervised.metrics.map((metric) => {
-      const mealIntake = meal?.metricIntakes.find(
-        (intake) => intake.metricId === metric.id
-      );
-      if (!mealIntake) return metric;
-
-      return new Metric(
-        metric.id,
-        metric.name,
-        metric.fieldName,
-        metric.unit,
-        metric.goal,
-        metric.intake - mealIntake.intake
-      );
+    const supervised = new Supervised({
+      id: supervisedData.id,
+      name: supervisedData.name,
+      highlightedMetric: supervisedData.highlightedMetric,
+      metrics: supervisedData.metrics,
+      mealIds: supervisedMeals.map((meal) => meal.id),
+    });
+    const meal = new Meal({
+      id: mealData!.id,
+      name: mealData!.name,
+      metricIntakes: mealData!.metricIntakes,
     });
 
-    await Promise.all(
-      newMetrics.map((metric) =>
+    supervised.removeMeal(meal);
+    supervised.subtractMetricIntakes(meal.metricIntakes);
+
+    this.mealRepository.delete({ mealId: input.mealId }).then((meals) => {
+      this.supervisionPresenter.presentMeals({ meals });
+    });
+
+    Promise.all(
+      supervised.metrics.map((metric) =>
         this.supervisedRepository.updateMetric({
           supervisedId: supervised.id,
           metric,
         })
       )
-    );
+    ).then(() => {
+      this.supervisionPresenter.presentSupervised({
+        supervised: {
+          id: supervised.id,
+          name: supervised.name,
+          photo: supervisedData.photo,
+          highlightedMetric: supervised.highlightedMetric,
+          metrics: supervised.metrics,
+        },
+      });
 
-    supervised.metrics = newMetrics;
-    supervised.highlightedMetric = newMetrics.find(
-      (metric) => metric.id === supervised.highlightedMetric.id
-    )!;
+      this.supervisionPresenter.setSupervisedLoading(false);
+    });
 
-    this.supervisionPresenter.presentSupervised({ supervised });
+    this.supervisionPresenter.setMealDeletionLoading(false, input.mealId);
   }
 }

@@ -6,8 +6,7 @@ import type { MetricIntake } from "../value-objects/metric-intake";
 export type MealProps = {
   id: string;
   name: string;
-  calories: number;
-  nutrionalValues: MetricIntake[];
+  metricIntakes: MetricIntake[];
 };
 
 export class Meal extends Entity<MealProps> {
@@ -16,5 +15,13 @@ export class Meal extends Entity<MealProps> {
       ...props,
       id: props.id ?? randomUUID(),
     });
+  }
+
+  get id() {
+    return this.props.id;
+  }
+
+  get metricIntakes() {
+    return this.props.metricIntakes;
   }
 }
