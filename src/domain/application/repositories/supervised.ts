@@ -8,6 +8,12 @@ export type SupervisedData = {
   metrics: Metric[];
 };
 
+export type SupervisedMetricUpating = {
+  supervisedId: string;
+  metric: Metric;
+};
+
 export interface SupervisedRepository {
   findById(id: string): Promise<SupervisedData>;
+  updateMetric(data: SupervisedMetricUpating): Promise<SupervisedData>;
 }
