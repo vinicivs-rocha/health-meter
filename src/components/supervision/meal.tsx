@@ -1,5 +1,5 @@
 import { MaterialIcons } from "@expo/vector-icons";
-import React, { PropsWithChildren, useState } from "react";
+import React, { PropsWithChildren, useEffect, useState } from "react";
 import { Platform, Pressable, StyleSheet, Text, View } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
@@ -8,6 +8,7 @@ import Animated, {
   useSharedValue,
   withClamp,
   withDecay,
+  withSpring,
 } from "react-native-reanimated";
 
 interface MealProps {
@@ -26,7 +27,7 @@ export default function Meal({
   deleteMeal,
   startMealUpdating,
 }: PropsWithChildren<MealProps>) {
-  const x = useSharedValue(0);
+  const x = useSharedValue(100);
   const [containerHeight, setContainerHeight] = useState(0);
 
   const mealContainerAnimatedStyles = useAnimatedStyle(() => ({
@@ -60,6 +61,14 @@ export default function Meal({
         })
       );
     });
+
+  useEffect(() => {
+    x.value = withSpring(0, {
+      damping: 100,
+      duration: 2000,
+    });
+  }, []);
+
   return (
     <View
       style={styles.container}
