@@ -65,7 +65,7 @@ export default function Meal({
   useEffect(() => {
     x.value = withSpring(0, {
       damping: 100,
-      duration: 2000,
+      duration: 2000 as unknown as undefined,
     });
   }, []);
 
