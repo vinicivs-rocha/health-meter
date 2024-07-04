@@ -9,7 +9,7 @@ import {
   SupervisedRepository,
 } from "../repositories/supervised";
 
-type Input = {
+export type DeleteMealInput = {
   mealId: string;
   supervisedId: string;
 };
@@ -19,7 +19,7 @@ export type DeleteMealOutput = {
   meals: MealData[];
 };
 
-export class DeleteMeal implements Usecase<Input, DeleteMealOutput> {
+export class DeleteMeal implements Usecase<DeleteMealInput, DeleteMealOutput> {
   output!: DeleteMealOutput;
 
   @inject("SupervisedRepository")
@@ -29,7 +29,7 @@ export class DeleteMeal implements Usecase<Input, DeleteMealOutput> {
   @inject("SupervisionPresenter")
   private supervisionPresenter!: SupervisionPresenter;
 
-  async execute(input: Input): Promise<void> {
+  async execute(input: DeleteMealInput): Promise<void> {
     this.supervisionPresenter.setMealDeletionLoading(true, input.mealId);
     this.supervisionPresenter.setSupervisedLoading(true);
 
