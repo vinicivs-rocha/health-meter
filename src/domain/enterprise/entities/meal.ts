@@ -1,4 +1,4 @@
-import { randomUUID } from "crypto";
+import { randomUUID } from "expo-crypto";
 import { Entity } from "../../../core/entities/entity";
 import type { Optional } from "../../../core/types/optional";
 import type { MetricIntake } from "../value-objects/metric-intake";
