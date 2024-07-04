@@ -1,4 +1,5 @@
 import { StartSupervisionViewModel } from "@/adapters/view-models/start-supervision";
+import { DeleteMealInput } from "@/domain/application/usecases/delete-meal";
 import { useEffect } from "react";
 import { StyleSheet } from "react-native";
 import { SupervisionViewProps } from "./view";
@@ -25,7 +26,7 @@ export default function StartSupervisionController({
         checkHistory={() => console.log("checkHistory")}
         logout={() => viewModel.logout()}
         startMetricGoalChange={() => console.log("change goal")}
-        deleteMeal={(mealId: string) => console.log(`delete meal ${mealId}`)}
+        deleteMeal={(data: DeleteMealInput) => viewModel.deleteMeal(data)}
         startMealUpdating={(mealId: string) =>
           console.log(`update meal ${mealId}`)
         }

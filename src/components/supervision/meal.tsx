@@ -15,7 +15,7 @@ interface MealProps {
   id: string;
   name: string;
   createdAt: Date;
-  deleteMeal: (mealId: string) => void;
+  deleteMeal: () => void;
   startMealUpdating: (mealId: string) => void;
 }
 
@@ -101,7 +101,7 @@ export default function Meal({
           { height: containerHeight },
         ]}
       >
-        <Pressable style={styles.deleteButton} onPress={() => deleteMeal(id)}>
+        <Pressable style={styles.deleteButton} onPress={() => deleteMeal()}>
           <MaterialIcons name="delete" size={24} color="#343A40" />
         </Pressable>
       </Animated.View>

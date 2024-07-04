@@ -1,3 +1,4 @@
+import { DeleteMealInput } from "@/domain/application/usecases/delete-meal";
 import { SupervisionStore } from "@/stores/supervision";
 import { observer } from "mobx-react-lite";
 import { ActivityIndicator, FlatList, StyleSheet, View } from "react-native";
@@ -6,7 +7,7 @@ import MealContent from "./meal-content";
 
 export interface SupervisionMealsProps {
   Store: SupervisionStore;
-  deleteMeal: (mealId: string) => void;
+  deleteMeal: (data: DeleteMealInput) => void;
   startMealUpdating: (mealId: string) => void;
 }
 
@@ -28,12 +29,14 @@ function SupervisionMeals({
         style={styles.mealsList}
         data={Store.meals}
         keyExtractor={(item) => item.id}
-        renderItem={({ item: { name, createdAt, id, metricIntakes } }) => (
+        renderItem={({ item: { name, createdAt, id } }) => (
           <Meal
             id={id}
             name={name}
             createdAt={createdAt}
-            deleteMeal={deleteMeal}
+            deleteMeal={() =>
+              deleteMeal({ mealId: id, supervisedId: Store.supervised!.id })
+            }
             startMealUpdating={startMealUpdating}
           >
             <MealContent Store={Store} mealId={id} />
