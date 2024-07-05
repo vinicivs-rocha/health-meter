@@ -1,7 +1,7 @@
 import { Meal } from "@/domain/enterprise/entities/meal";
 import { Supervised } from "@/domain/enterprise/entities/supervised";
 import { Usecase } from "@core/usecases/usecase";
-import { inject } from "inversify";
+import { inject, injectable } from "inversify";
 import { SupervisionPresenter } from "../presenters/supervision";
 import { MealData, MealRepository } from "../repositories/meal";
 import {
@@ -19,6 +19,7 @@ export type DeleteMealOutput = {
   meals: MealData[];
 };
 
+@injectable()
 export class DeleteMeal implements Usecase<DeleteMealInput, DeleteMealOutput> {
   output!: DeleteMealOutput;
 
