@@ -56,13 +56,6 @@ export class SupabaseSupervisedRepository implements SupervisedRepository {
       );
     });
 
-    const { data: mealIds, error: mealIdsError } = await this.supabase
-      .from("meals")
-      .select("id")
-      .eq("user_id", id);
-
-    if (mealIdsError) throw mealIdsError;
-
     return {
       id,
       name: session.user.user_metadata.name,
@@ -80,10 +73,16 @@ export class SupabaseSupervisedRepository implements SupervisedRepository {
   }
 
   async updateMetric(data: SupervisedMetricUpatingData): Promise<void> {
-    await this.supabase.from("metrics").update({
-      name: data.metric.name,
-      goal: data.metric.goal.value,
-      intake: data.metric.intake,
-    });
+    const { error } = await this.supabase
+      .from("metrics")
+      .update({
+        name: data.metric.name,
+        goal: data.metric.goal.value,
+        intake: data.metric.intake,
+      })
+      .eq("id", data.metric.id)
+      .eq("user_id", data.supervisedId);
+
+    if (error) throw error;
   }
 }
