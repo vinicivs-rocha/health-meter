@@ -30,4 +30,11 @@ export class ExpoSupervisionPresenter implements SupervisionPresenter {
   async setSupervisedLoading(state: boolean): Promise<void> {
     this.store.supervisedLoading = state;
   }
+
+  async setMealDeletionLoading(state: boolean, mealId: string): Promise<void> {
+    this.store.mealsDeletionLoading = {
+      state,
+      mealId,
+    };
+  }
 }

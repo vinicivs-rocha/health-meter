@@ -3,12 +3,18 @@ import { SupervisedData } from "@/domain/application/repositories/supervised";
 import { injectable } from "inversify";
 import { makeAutoObservable, runInAction } from "mobx";
 
+type SetMealsDeletionLoadingInput = {
+  mealId: string;
+  state: boolean;
+};
+
 @injectable()
 export class SupervisionStore {
   private _supervisedLoading: boolean = true;
   private _mealsLoading: boolean = true;
   private _supervised: SupervisedData | null = null;
   private _meals: MealData[] = [];
+  private _mealsDeletionLoading = new Map<string, boolean>();
 
   constructor() {
     makeAutoObservable(this);
@@ -47,10 +53,19 @@ export class SupervisionStore {
   set meals(meals: MealData[]) {
     runInAction(() => {
       this._meals = meals;
+      meals.forEach((meal) => {
+        this._mealsDeletionLoading.set(meal.id, false);
+      });
     });
   }
 
   get meals() {
     return this._meals;
+  }
+
+  set mealsDeletionLoading({ mealId, state }: SetMealsDeletionLoadingInput) {
+    runInAction(() => {
+      this._mealsDeletionLoading.set(mealId, state);
+    });
   }
 }
