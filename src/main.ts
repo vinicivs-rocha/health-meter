@@ -16,6 +16,7 @@ import { SupervisionPresenter } from "./domain/application/presenters/supervisio
 import { MealRepository } from "./domain/application/repositories/meal";
 import { SupervisedRepository } from "./domain/application/repositories/supervised";
 import { Authenticate } from "./domain/application/usecases/authenticate";
+import { DeleteMeal } from "./domain/application/usecases/delete-meal";
 import { SignIn } from "./domain/application/usecases/sign-in";
 import { SignOut } from "./domain/application/usecases/sign-out";
 import { StartSupervision } from "./domain/application/usecases/start-supervision";
@@ -60,6 +61,8 @@ appInjector
   .inSingletonScope();
 
 appInjector.bind<SignOut>("SignOut").to(SignOut);
+
+appInjector.bind<DeleteMeal>("DeleteMeal").to(DeleteMeal);
 
 export { appInjector };
 
