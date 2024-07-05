@@ -15,5 +15,5 @@ export interface MealRepository {
   findById(id: string): Promise<MealData | null>;
   findByIds(ids: string[]): Promise<MealData[]>;
   findAllBySupervised(supervisedId: string): Promise<MealData[]>;
-  delete(data: MealDeletionData): Promise<MealData[]>;
+  delete(data: MealDeletionData): Promise<void>;
 }
