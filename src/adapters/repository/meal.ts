@@ -1,5 +1,6 @@
 import {
   MealData,
+  MealDeletionData,
   MealRepository,
 } from "@/domain/application/repositories/meal";
 import { MetricIntake } from "@/domain/enterprise/value-objects/metric-intake";
@@ -64,5 +65,9 @@ export class SupabaseMealRepository implements MealRepository {
       createdAt: new Date(created_at),
       metricIntakes: [],
     }));
+  }
+
+  async delete(data: MealDeletionData): Promise<void> {
+    await this.supabase.from("meals").delete().eq("id", data.mealId);
   }
 }
