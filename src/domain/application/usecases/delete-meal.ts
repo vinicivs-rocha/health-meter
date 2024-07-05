@@ -57,16 +57,21 @@ export class DeleteMeal implements Usecase<DeleteMealInput, DeleteMealOutput> {
     supervised.removeMeal(meal);
     supervised.subtractMetricIntakes(meal.metricIntakes);
 
-    this.mealRepository.delete({ mealId: input.mealId }).then((meals) => {
+    this.mealRepository.delete({ mealId: input.mealId }).then(async () => {
+      const meals = await this.mealRepository.findAllBySupervised(
+        supervised.id
+      );
       this.supervisionPresenter.presentMeals({ meals });
+      this.supervisionPresenter.setMealDeletionLoading(false, input.mealId);
     });
 
     Promise.all(
-      supervised.metrics.map((metric) =>
-        this.supervisedRepository.updateMetric({
-          supervisedId: supervised.id,
-          metric,
-        })
+      supervised.metrics.map(
+        async (metric) =>
+          await this.supervisedRepository.updateMetric({
+            supervisedId: supervised.id,
+            metric,
+          })
       )
     ).then(() => {
       this.supervisionPresenter.presentSupervised({
@@ -81,7 +86,5 @@ export class DeleteMeal implements Usecase<DeleteMealInput, DeleteMealOutput> {
 
       this.supervisionPresenter.setSupervisedLoading(false);
     });
-
-    this.supervisionPresenter.setMealDeletionLoading(false, input.mealId);
   }
 }
