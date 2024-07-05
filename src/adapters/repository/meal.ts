@@ -12,7 +12,34 @@ export class SupabaseMealRepository implements MealRepository {
   @inject("SupabaseClient") private readonly supabase!: SupabaseClient;
 
   async findById(id: string): Promise<MealData | null> {
-    throw new Error("Method not implemented.");
+    const { data: mealData, error: mealError } = await this.supabase
+      .from("meals")
+      .select("id, name, created_at")
+      .eq("id", id)
+      .single();
+
+    if (mealError) {
+      throw mealError;
+    }
+
+    const { data: metricIntakesData, error: metricIntakesError } =
+      await this.supabase
+        .from("meal_metrics")
+        .select("intake, metric_id")
+        .eq("meal_id", id);
+
+    if (metricIntakesError) {
+      throw metricIntakesError;
+    }
+
+    return {
+      id: mealData.id,
+      name: mealData.name,
+      createdAt: new Date(mealData.created_at),
+      metricIntakes: metricIntakesData.map(
+        ({ intake, metric_id }) => new MetricIntake(metric_id, intake)
+      ),
+    };
   }
 
   async findAllBySupervised(supervisedId: string): Promise<MealData[]> {
