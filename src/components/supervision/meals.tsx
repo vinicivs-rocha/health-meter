@@ -1,7 +1,14 @@
 import { DeleteMealInput } from "@/domain/application/usecases/delete-meal";
 import { SupervisionStore } from "@/stores/supervision";
+import NoMealsDataIcon from "@assets/no-meals-data.svg";
 import { observer } from "mobx-react-lite";
-import { ActivityIndicator, FlatList, StyleSheet, View } from "react-native";
+import {
+  ActivityIndicator,
+  FlatList,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import Meal from "./meal";
 import MealContent from "./meal-content";
 
@@ -23,6 +30,16 @@ function SupervisionMeals({
       </View>
     );
   }
+
+  if (!Store.meals.length) {
+    return (
+      <View style={styles.container}>
+        <NoMealsDataIcon width={350} height={350} />
+        <Text style={styles.noMealsText}>Nenhuma refeição registrada hoje</Text>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
       <FlatList
@@ -55,6 +72,11 @@ const styles = StyleSheet.create({
   },
   mealsList: {
     width: `100%`,
+  },
+  noMealsText: {
+    color: `#343A40`,
+    fontSize: 16,
+    fontFamily: "Poppins_600SemiBold",
   },
 });
 
