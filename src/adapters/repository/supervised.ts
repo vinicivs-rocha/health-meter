@@ -47,10 +47,11 @@ export class SupabaseSupervisedRepository implements SupervisedRepository {
         field_name: string;
       };
       return new Metric(
+        metric.id,
         metric.name,
         field_name,
         unit,
-        metric.goal,
+        new Goal(metric.goal),
         metric.intake
       );
     });
