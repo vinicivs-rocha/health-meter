@@ -1,5 +1,6 @@
 import {
   SupervisedData,
+  SupervisedMetricUpatingData,
   SupervisedRepository,
 } from "@/domain/application/repositories/supervised";
 import { FetchFailed } from "@/domain/enterprise/exceptions/fetch-failed";
@@ -75,5 +76,13 @@ export class SupabaseSupervisedRepository implements SupervisedRepository {
       ),
       metrics,
     };
+  }
+
+  async updateMetric(data: SupervisedMetricUpatingData): Promise<void> {
+    await this.supabase.from("metrics").update({
+      name: data.metric.name,
+      goal: data.metric.goal.value,
+      intake: data.metric.intake,
+    });
   }
 }
