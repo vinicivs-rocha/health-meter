@@ -1,4 +1,6 @@
+import { SupervisionStore } from "@/stores/supervision";
 import { MaterialIcons } from "@expo/vector-icons";
+import { observer } from "mobx-react-lite";
 import React, { PropsWithChildren, useEffect, useState } from "react";
 import { Platform, Pressable, StyleSheet, Text, View } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
@@ -11,21 +13,23 @@ import Animated, {
   withSpring,
 } from "react-native-reanimated";
 
-interface MealProps {
+export interface MealProps {
   id: string;
   name: string;
   createdAt: Date;
   deleteMeal: () => void;
   startMealUpdating: (mealId: string) => void;
+  Store: SupervisionStore;
 }
 
-export default function Meal({
+function Meal({
   id,
   name,
   createdAt,
   children,
   deleteMeal,
   startMealUpdating,
+  Store,
 }: PropsWithChildren<MealProps>) {
   const x = useSharedValue(100);
   const [containerHeight, setContainerHeight] = useState(0);
@@ -71,7 +75,10 @@ export default function Meal({
 
   return (
     <View
-      style={styles.container}
+      style={[
+        styles.container,
+        Store.getMealDeletionLoadingState(id) && { opacity: 0.5 },
+      ]}
       onLayout={(event) => {
         const { height } = event.nativeEvent.layout;
         setContainerHeight(height - 8);
@@ -169,3 +176,5 @@ const styles = StyleSheet.create({
     alignItems: `center`,
   },
 });
+
+export default observer(Meal);
