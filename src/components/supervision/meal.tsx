@@ -11,6 +11,7 @@ import Animated, {
   withClamp,
   withDecay,
   withSpring,
+  withTiming,
 } from "react-native-reanimated";
 
 export interface MealProps {
@@ -32,7 +33,12 @@ function Meal({
   Store,
 }: PropsWithChildren<MealProps>) {
   const x = useSharedValue(100);
+  const containerOpacity = useSharedValue(1);
   const [containerHeight, setContainerHeight] = useState(0);
+
+  const containerAnimatedStyles = useAnimatedStyle(() => ({
+    opacity: containerOpacity.value,
+  }));
 
   const mealContainerAnimatedStyles = useAnimatedStyle(() => ({
     transform: [{ translateX: x.value }],
@@ -43,6 +49,10 @@ function Meal({
     opacity: Math.abs(x.value / 50),
   }));
 
+  if (Store.getMealDeletionLoadingState(id)) {
+    x.value = withTiming(0, { duration: 200 });
+    containerOpacity.value = withTiming(0.5, { duration: 200 });
+  }
   const gesture = Gesture.Pan()
     .onChange(({ changeX }) => {
       if (x.value + changeX >= 0) return (x.value = 0);
@@ -74,11 +84,8 @@ function Meal({
   }, []);
 
   return (
-    <View
-      style={[
-        styles.container,
-        Store.getMealDeletionLoadingState(id) && { opacity: 0.5 },
-      ]}
+    <Animated.View
+      style={[styles.container, containerAnimatedStyles]}
       onLayout={(event) => {
         const { height } = event.nativeEvent.layout;
         setContainerHeight(height - 8);
@@ -86,7 +93,24 @@ function Meal({
     >
       <GestureDetector gesture={gesture}>
         <Animated.View
-          style={[styles.mealContainer, mealContainerAnimatedStyles]}
+          style={[
+            styles.mealContainer,
+            mealContainerAnimatedStyles,
+            Store.getMealDeletionLoadingState(id) &&
+              Platform.select({
+                ios: {
+                  shadowOffset: {
+                    width: 0,
+                    height: 0,
+                  },
+                  shadowOpacity: 0,
+                  shadowRadius: 0,
+                },
+                android: {
+                  elevation: 0,
+                },
+              }),
+          ]}
         >
           <Pressable onPress={() => startMealUpdating(id)}>
             <View style={styles.mealTitle}>
@@ -112,7 +136,7 @@ function Meal({
           <MaterialIcons name="delete" size={24} color="#343A40" />
         </Pressable>
       </Animated.View>
-    </View>
+    </Animated.View>
   );
 }
 
