@@ -2,6 +2,7 @@ import { DeleteMealInput } from "@/domain/application/usecases/delete-meal";
 import { SupervisionStore } from "@/stores/supervision";
 import NoMealsDataIcon from "@assets/no-meals-data.svg";
 import { observer } from "mobx-react-lite";
+import { PropsWithChildren } from "react";
 import {
   ActivityIndicator,
   FlatList,
@@ -9,17 +10,19 @@ import {
   Text,
   View,
 } from "react-native";
-import Meal from "./meal";
+import { MealProps } from "./meal";
 import MealContent from "./meal-content";
 
 export interface SupervisionMealsProps {
   Store: SupervisionStore;
+  Meal: (props: OmitUppercase<PropsWithChildren<MealProps>>) => React.ReactNode;
   deleteMeal: (data: DeleteMealInput) => void;
   startMealUpdating: (mealId: string) => void;
 }
 
 function SupervisionMeals({
   Store,
+  Meal,
   deleteMeal,
   startMealUpdating,
 }: SupervisionMealsProps) {
