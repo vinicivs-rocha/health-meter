@@ -68,4 +68,8 @@ export class SupervisionStore {
       this._mealsDeletionLoading.set(mealId, state);
     });
   }
+
+  getMealDeletionLoadingState(mealId: string) {
+    return this._mealsDeletionLoading.get(mealId) ?? false;
+  }
 }
