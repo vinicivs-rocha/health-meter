@@ -4,8 +4,9 @@ import {
 } from "@/domain/application/presenters/meal";
 import { MealStore } from "@/stores/meal";
 import { Router } from "@/types";
-import { inject } from "inversify";
+import { inject, injectable } from "inversify";
 
+@injectable()
 export class ExpoMealPresenter implements MealPresenter {
   @inject("MealStore") private readonly store!: MealStore;
   @inject("ExpoRouter") private readonly router!: Router;
