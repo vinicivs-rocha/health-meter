@@ -1,5 +1,5 @@
 import { Usecase } from "@core/usecases/usecase";
-import { inject } from "inversify";
+import { inject, injectable } from "inversify";
 import { MealPresenter } from "../presenters/meal";
 
 export type StartMealAddingInput = [];
@@ -8,6 +8,7 @@ export type StartMealAddingOutput = {
   defaultMealName: string;
 };
 
+@injectable()
 export class StartMealAdding
   implements Usecase<StartMealAddingInput, StartMealAddingOutput>
 {
