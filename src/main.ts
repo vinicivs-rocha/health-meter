@@ -4,6 +4,7 @@ import { ExpoRouter } from "expo-router/types/expo-router";
 import { Container } from "inversify";
 import { SupabaseAuthenticationGateway } from "./adapters/gateways/authentication";
 import { ExpoAuthenticationPresenter } from "./adapters/presenters/authentication";
+import { ExpoMealPresenter } from "./adapters/presenters/meal";
 import { ExpoSupervisionPresenter } from "./adapters/presenters/supervision";
 import { SupabaseMealRepository } from "./adapters/repository/meal";
 import { SupabaseSupervisedRepository } from "./adapters/repository/supervised";
@@ -12,6 +13,7 @@ import { SignInViewModel } from "./adapters/view-models/sign-in";
 import { StartSupervisionViewModel } from "./adapters/view-models/start-supervision";
 import { AuthenticationGateway } from "./domain/application/gateways/authentication";
 import { AuthenticationPresenter } from "./domain/application/presenters/authentication";
+import { MealPresenter } from "./domain/application/presenters/meal";
 import { SupervisionPresenter } from "./domain/application/presenters/supervision";
 import { MealRepository } from "./domain/application/repositories/meal";
 import { SupervisedRepository } from "./domain/application/repositories/supervised";
@@ -19,7 +21,9 @@ import { Authenticate } from "./domain/application/usecases/authenticate";
 import { DeleteMeal } from "./domain/application/usecases/delete-meal";
 import { SignIn } from "./domain/application/usecases/sign-in";
 import { SignOut } from "./domain/application/usecases/sign-out";
+import { StartMealAdding } from "./domain/application/usecases/start-meal-adding";
 import { StartSupervision } from "./domain/application/usecases/start-supervision";
+import { MealStore } from "./stores/meal";
 import { SupervisionStore } from "./stores/supervision";
 import { supabase } from "./utils/supabase";
 
@@ -63,6 +67,12 @@ appInjector
 appInjector.bind<SignOut>("SignOut").to(SignOut);
 
 appInjector.bind<DeleteMeal>("DeleteMeal").to(DeleteMeal);
+
+appInjector.bind<MealStore>("MealStore").to(MealStore).inSingletonScope();
+
+appInjector.bind<MealPresenter>("MealPresenter").to(ExpoMealPresenter);
+
+appInjector.bind<StartMealAdding>("StartMealAdding").to(StartMealAdding);
 
 export { appInjector };
 
