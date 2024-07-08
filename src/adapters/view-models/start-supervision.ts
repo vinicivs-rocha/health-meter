@@ -3,6 +3,7 @@ import {
   DeleteMealInput,
 } from "@/domain/application/usecases/delete-meal";
 import { SignOut } from "@/domain/application/usecases/sign-out";
+import { StartMealAdding } from "@/domain/application/usecases/start-meal-adding";
 import { StartSupervision } from "@/domain/application/usecases/start-supervision";
 import { inject, injectable } from "inversify";
 
@@ -10,7 +11,8 @@ import { inject, injectable } from "inversify";
 export class StartSupervisionViewModel {
   @inject("StartSupervision") private startSupervision!: StartSupervision;
   @inject("SignOut") private signOut!: SignOut;
-  @inject("DeleteMeal") loadMeals!: DeleteMeal;
+  @inject("DeleteMeal") private deleteMeal!: DeleteMeal;
+  @inject("StartMealAdding") private _startMealAdding!: StartMealAdding;
 
   async start({ userId }: { userId: string }) {
     this.startSupervision.execute({ supervisedId: userId });
@@ -20,7 +22,11 @@ export class StartSupervisionViewModel {
     this.signOut.execute();
   }
 
-  async deleteMeal(data: DeleteMealInput) {
-    this.loadMeals.execute(data);
+  async deleteMealById(data: DeleteMealInput) {
+    this.deleteMeal.execute(data);
+  }
+
+  async startMealAdding() {
+    this._startMealAdding.execute();
   }
 }
