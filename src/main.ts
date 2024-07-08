@@ -9,6 +9,7 @@ import { ExpoSupervisionPresenter } from "./adapters/presenters/supervision";
 import { SupabaseMealRepository } from "./adapters/repository/meal";
 import { SupabaseSupervisedRepository } from "./adapters/repository/supervised";
 import { IndexViewModel } from "./adapters/view-models";
+import { MealAddingViewModel } from "./adapters/view-models/meal-adding";
 import { SignInViewModel } from "./adapters/view-models/sign-in";
 import { StartSupervisionViewModel } from "./adapters/view-models/start-supervision";
 import { AuthenticationGateway } from "./domain/application/gateways/authentication";
@@ -73,6 +74,10 @@ appInjector.bind<MealStore>("MealStore").to(MealStore).inSingletonScope();
 appInjector.bind<MealPresenter>("MealPresenter").to(ExpoMealPresenter);
 
 appInjector.bind<StartMealAdding>("StartMealAdding").to(StartMealAdding);
+
+appInjector
+  .bind<MealAddingViewModel>("MealAddingViewModel")
+  .to(MealAddingViewModel);
 
 export { appInjector };
 
