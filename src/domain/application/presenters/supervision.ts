@@ -6,4 +6,5 @@ export interface SupervisionPresenter {
   presentSupervised(data: Supervised): Promise<void>;
   presentError(message: string): Promise<void>;
   presentCalorieGoal(goal: number): Promise<void>;
+  presentIntake(intake: number): Promise<void>;
 }
