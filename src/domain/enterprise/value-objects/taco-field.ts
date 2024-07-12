@@ -8,16 +8,20 @@ export enum TacoFields {
 }
 
 export class TacoField {
-  private _value: TacoFields;
+  private _value: keyof typeof TacoFields;
 
-  private constructor(value: TacoFields) {
+  private constructor(value: string) {
     if (!this.isValid(value)) {
       throw new InvalidField("TacoField", value);
     }
     this._value = value;
   }
 
-  private isValid(value: TacoFields): value is TacoFields {
-    return Object.values(TacoFields).includes(value);
+  private isValid(value: string): value is keyof typeof TacoFields {
+    return Object.keys(TacoFields).includes(value);
+  }
+
+  get value(): TacoFields {
+    return TacoFields[this._value];
   }
 }
