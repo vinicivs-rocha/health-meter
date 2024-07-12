@@ -6,6 +6,7 @@ import { Meal } from "./meal";
 export type SupervisedProps = {
   id: string;
   name: string;
+  photo?: string;
   metrics: string[];
   meals: Meal[];
 };
@@ -32,5 +33,9 @@ export class Supervised extends Entity<SupervisedProps> {
 
   get meals() {
     return this.props.meals;
+  }
+
+  get photo() {
+    return this.props.photo;
   }
 }
