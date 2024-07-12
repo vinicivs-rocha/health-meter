@@ -44,7 +44,7 @@ export class TacoField implements ValueObject {
     return TacoFieldUnits[this._unit];
   }
 
-  public equals(other: any): boolean {
+  equals(other: any): boolean {
     if (other === null) {
       return false;
     }

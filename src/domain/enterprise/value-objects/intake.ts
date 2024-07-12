@@ -25,7 +25,7 @@ export class Intake implements ValueObject {
     return this._value;
   }
 
-  public equals(other: any): boolean {
+  equals(other: any): boolean {
     if (other === null) {
       return false;
     }
