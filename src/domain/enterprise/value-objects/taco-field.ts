@@ -1,27 +1,45 @@
 import { InvalidField } from "../exceptions/invalid-field";
 
-export enum TacoFields {
+export enum TacoFieldNames {
   CARBS = "carbohydrates",
   FAT = "lipids",
   PROTEIN = "protein",
   CALORIES = "kcal",
 }
 
+export enum TacoFieldUnits {
+  CARBS = "g",
+  FAT = "g",
+  PROTEIN = "g",
+  CALORIES = "kcal",
+}
+
 export class TacoField {
-  private _value: keyof typeof TacoFields;
+  private _name: keyof typeof TacoFieldNames;
+  private _unit: keyof typeof TacoFieldUnits;
 
-  private constructor(value: string) {
-    if (!this.isValid(value)) {
-      throw new InvalidField("TacoField", value);
-    }
-    this._value = value;
+  private constructor(name: string, unit: string) {
+    if (!this.isValidName(name)) throw new InvalidField("TacoFieldName", name);
+
+    if (!this.isValidUnit(unit)) throw new InvalidField("TacoFieldUnit", unit);
+
+    this._name = name;
+    this._unit = unit;
   }
 
-  private isValid(value: string): value is keyof typeof TacoFields {
-    return Object.keys(TacoFields).includes(value);
+  private isValidName(name: string): name is keyof typeof TacoFieldNames {
+    return Object.keys(TacoFieldNames).includes(name);
   }
 
-  get value(): TacoFields {
-    return TacoFields[this._value];
+  private isValidUnit(unit: string): unit is keyof typeof TacoFieldUnits {
+    return Object.keys(TacoFieldUnits).includes(unit);
+  }
+
+  get name(): TacoFieldNames {
+    return TacoFieldNames[this._name];
+  }
+
+  get unit(): TacoFieldUnits {
+    return TacoFieldUnits[this._unit];
   }
 }
