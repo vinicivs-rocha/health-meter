@@ -1,3 +1,4 @@
+import { ValueObject } from "@core/value-objects/value-object";
 import { InvalidField } from "../exceptions/invalid-field";
 
 export enum TacoFieldNames {
@@ -14,7 +15,7 @@ export enum TacoFieldUnits {
   CALORIES = "kcal",
 }
 
-export class TacoField {
+export class TacoField implements ValueObject {
   private _name: keyof typeof TacoFieldNames;
   private _unit: keyof typeof TacoFieldUnits;
 
@@ -41,5 +42,17 @@ export class TacoField {
 
   get unit(): TacoFieldUnits {
     return TacoFieldUnits[this._unit];
+  }
+
+  public equals(other: any): boolean {
+    if (other === null) {
+      return false;
+    }
+
+    if (!(other instanceof TacoField)) {
+      return false;
+    }
+
+    return this.name === other.name && this.unit === other.unit;
   }
 }
