@@ -92,7 +92,7 @@ export class SupabaseSupervisedRepository implements SupervisedRepository {
     });
   }
 
-  update(data: Supervised): Promise<void> {
-    throw new Error("Method not implemented.");
+  async deleteMeal(mealId: string): Promise<void> {
+    await this.supabase.from("meals").delete().eq("id", mealId);
   }
 }

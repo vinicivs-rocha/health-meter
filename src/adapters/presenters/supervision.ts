@@ -28,4 +28,8 @@ export class ExpoSupervisionPresenter implements SupervisionPresenter {
       mealId,
     };
   }
+
+  async presentIntake(intake: number): Promise<void> {
+    this.store.highlightedIntake = intake;
+  }
 }

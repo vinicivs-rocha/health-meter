@@ -12,6 +12,7 @@ export class SupervisionStore {
   private _supervisedLoading: boolean = true;
   private _supervised: Supervised | null = null;
   private _mealsDeletionLoading = new Map<string, boolean>();
+  private _highlightedIntake: number = 0;
 
   constructor() {
     makeAutoObservable(this);
@@ -44,6 +45,16 @@ export class SupervisionStore {
   set mealsDeletionLoading({ mealId, state }: SetMealsDeletionLoadingInput) {
     runInAction(() => {
       this._mealsDeletionLoading.set(mealId, state);
+    });
+  }
+
+  get highlightedIntake() {
+    return this._highlightedIntake;
+  }
+
+  set highlightedIntake(value: number) {
+    runInAction(() => {
+      this._highlightedIntake = value;
     });
   }
 

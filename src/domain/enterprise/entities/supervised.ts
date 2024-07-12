@@ -40,8 +40,8 @@ export class Supervised extends Entity<SupervisedProps> {
     return this.props.photo;
   }
 
-  removeMeal(meal: Meal) {
-    this.props.meals = this.meals.filter((m) => m.id !== meal.id);
+  removeMeal(mealId: string) {
+    this.props.meals = this.meals.filter((m) => m.id !== mealId);
   }
 
   getTacoFieldTotalIntake(tacoField: TacoField) {

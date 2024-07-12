@@ -27,7 +27,6 @@ export class DeleteMeal implements Usecase<DeleteMealInput, DeleteMealOutput> {
     this.supervisionPresenter.setMealDeletionLoading(true, input.mealId);
 
     const supervised = await this.supervisedRepository.findCurrent();
-    const meal = await this.supervisedRepository.findMealById(input.mealId);
     const highlightedMetric = await this.metricRepository.findHighlightedInIds(
       supervised.metrics
     );
@@ -36,7 +35,9 @@ export class DeleteMeal implements Usecase<DeleteMealInput, DeleteMealOutput> {
       throw new Error("No highlighted metric found");
     }
 
-    supervised.removeMeal(meal);
+    supervised.removeMeal(input.mealId);
+
+    await this.supervisedRepository.deleteMeal(input.mealId);
 
     this.supervisionPresenter.setMealDeletionLoading(false, input.mealId);
     this.supervisionPresenter.presentSupervised(supervised);
