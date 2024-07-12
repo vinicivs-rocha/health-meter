@@ -1,65 +1,28 @@
+import { Supervised } from "@/domain/enterprise/entities/supervised";
 import { inject, injectable } from "inversify";
 import { Usecase } from "../../../core/usecases/usecase";
-import { FetchFailed } from "../../enterprise/exceptions/fetch-failed";
 import type { SupervisionPresenter } from "../presenters/supervision";
-import type { MealData, MealRepository } from "../repositories/meal";
-import type {
-  SupervisedData,
-  SupervisedRepository,
-} from "../repositories/supervised";
-
-type Input = {
-  supervisedId: string;
-};
+import type { SupervisedRepository } from "../repositories/supervised";
 
 export type StartSupervisionOutput = {
-  supervised: SupervisedData;
-  meals: MealData[];
+  supervised: Supervised;
 };
 
 @injectable()
-export class StartSupervision
-  implements Usecase<Input, StartSupervisionOutput>
-{
+export class StartSupervision implements Usecase<[], StartSupervisionOutput> {
   output!: StartSupervisionOutput;
 
   @inject("SupervisedRepository")
   private supervisedRepository!: SupervisedRepository;
-  @inject("MealRepository")
-  private mealRepository!: MealRepository;
   @inject("SupervisionPresenter")
   private supervisionPresenter!: SupervisionPresenter;
 
-  async execute({ supervisedId }: Input) {
+  async execute() {
     try {
-      this.supervisionPresenter.setSupervisedLoading(true);
-      this.supervisionPresenter.setMealsLoading(true);
-      this.supervisedRepository
-        .findById(supervisedId)
-        .then((supervised) => {
-          this.supervisionPresenter.presentSupervised({ supervised });
-          this.supervisionPresenter.setSupervisedLoading(false);
-        })
-        .catch((error) => {
-          throw error;
-        });
+      const supervised = await this.supervisedRepository.findCurrent();
 
-      this.mealRepository
-        .findAllBySupervised(supervisedId)
-        .then((meals) => {
-          const todayMeals = meals.filter(
-            ({ createdAt }) => createdAt.getDate() === new Date().getDate()
-          );
-          this.supervisionPresenter.presentMeals({ meals: todayMeals });
-          this.supervisionPresenter.setMealsLoading(false);
-        })
-        .catch((error) => {
-          throw error;
-        });
+      this.supervisionPresenter.presentSupervised(supervised);
     } catch (error) {
-      if (error instanceof FetchFailed) {
-        this.supervisionPresenter.presentError(error.message);
-      }
       console.error(error);
     }
   }
