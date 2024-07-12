@@ -1,19 +1,6 @@
-import type { Metric } from "../../enterprise/value-objects/metric";
-
-export type SupervisedData = {
-  id: string;
-  name: string;
-  photo: string;
-  highlightedMetric: Metric;
-  metrics: Metric[];
-};
-
-export type SupervisedMetricUpatingData = {
-  supervisedId: string;
-  metric: Metric;
-};
+import { Supervised } from "@/domain/enterprise/entities/supervised";
 
 export interface SupervisedRepository {
-  findById(id: string): Promise<SupervisedData>;
-  updateMetric(data: SupervisedMetricUpatingData): Promise<void>;
+  findById(id: string): Promise<Supervised>;
+  update(data: Supervised): Promise<void>;
 }
