@@ -1,5 +1,5 @@
-import { UserData } from "@/domain/application/gateways/authentication";
 import { AuthenticationPresenter } from "@/domain/application/presenters/authentication";
+import { Supervised } from "@/domain/enterprise/entities/supervised";
 import { Router } from "@/types";
 import { inject, injectable } from "inversify";
 
@@ -13,7 +13,7 @@ export class ExpoAuthenticationPresenter implements AuthenticationPresenter {
   async presentUnauthenticated(): Promise<void> {
     this.router.replace("/sign-in");
   }
-  async presentAuthenticated({ id }: UserData): Promise<void> {
+  async presentAuthenticated({ id }: Supervised): Promise<void> {
     this.router.replace({ pathname: `supervision/${id}` });
   }
 }
