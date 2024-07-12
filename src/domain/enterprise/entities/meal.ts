@@ -7,6 +7,7 @@ import { Food } from "./food";
 export type MealProps = {
   id: string;
   name: string;
+  createdAt: Date;
   foods: Food[];
 };
 
