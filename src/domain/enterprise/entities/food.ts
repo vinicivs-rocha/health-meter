@@ -40,4 +40,11 @@ export class Food extends Entity<FoodProps> {
       new Intake(name, tacoField, baseValue * this.props.amount)
     );
   }
+
+  getTacoFieldIntake(tacoField: TacoField): number {
+    return (
+      this.props.intakes.find((intake) => intake.tacoField === tacoField)
+        ?.value ?? 0
+    );
+  }
 }
