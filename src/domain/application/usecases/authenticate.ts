@@ -21,7 +21,6 @@ export class Authenticate implements Usecase<[], AuthenticateOutput> {
       if (!isAuthenticated) {
         throw new Unauthenticated();
       }
-      console.log("Authenticated");
       await this.authenticationPresenter.presentAuthenticated();
     } catch (error) {
       if (error instanceof Unauthenticated) {
