@@ -19,7 +19,7 @@ export class TacoField implements ValueObject {
   private _name: keyof typeof TacoFieldNames;
   private _unit: keyof typeof TacoFieldUnits;
 
-  private constructor(name: string, unit: string) {
+  constructor(name: string, unit: string) {
     if (!this.isValidName(name)) throw new InvalidField("TacoFieldName", name);
 
     if (!this.isValidUnit(unit)) throw new InvalidField("TacoFieldUnit", unit);
