@@ -19,6 +19,22 @@ export class Food extends Entity<FoodProps> {
     });
   }
 
+  get id(): string {
+    return this.props.id;
+  }
+
+  get name(): string {
+    return this.props.name;
+  }
+
+  get amount(): number {
+    return this.props.amount;
+  }
+
+  get intakes(): Intake[] {
+    return this.props.intakes;
+  }
+
   addIntake(name: string, tacoField: TacoField, baseValue: number): void {
     this.props.intakes.push(
       new Intake(name, tacoField, baseValue * this.props.amount)
