@@ -6,7 +6,6 @@ import { SupabaseAuthenticationGateway } from "./adapters/gateways/authenticatio
 import { ExpoAuthenticationPresenter } from "./adapters/presenters/authentication";
 import { ExpoMealPresenter } from "./adapters/presenters/meal";
 import { ExpoSupervisionPresenter } from "./adapters/presenters/supervision";
-import { SupabaseMealRepository } from "./adapters/repository/meal";
 import { SupabaseSupervisedRepository } from "./adapters/repository/supervised";
 import { IndexViewModel } from "./adapters/view-models";
 import { MealAddingViewModel } from "./adapters/view-models/meal-adding";
@@ -16,7 +15,6 @@ import { AuthenticationGateway } from "./domain/application/gateways/authenticat
 import { AuthenticationPresenter } from "./domain/application/presenters/authentication";
 import { MealPresenter } from "./domain/application/presenters/meal";
 import { SupervisionPresenter } from "./domain/application/presenters/supervision";
-import { MealRepository } from "./domain/application/repositories/meal";
 import { SupervisedRepository } from "./domain/application/repositories/supervised";
 import { Authenticate } from "./domain/application/usecases/authenticate";
 import { DeleteMeal } from "./domain/application/usecases/delete-meal";
@@ -49,7 +47,6 @@ appInjector.bind<SignInViewModel>("SignInViewModel").to(SignInViewModel);
 appInjector
   .bind<SupervisedRepository>("SupervisedRepository")
   .to(SupabaseSupervisedRepository);
-appInjector.bind<MealRepository>("MealRepository").to(SupabaseMealRepository);
 appInjector
   .bind<SupervisionPresenter>("SupervisionPresenter")
   .to(ExpoSupervisionPresenter);
