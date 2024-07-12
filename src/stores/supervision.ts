@@ -1,5 +1,4 @@
-import { MealData } from "@/domain/application/repositories/meal";
-import { SupervisedData } from "@/domain/application/repositories/supervised";
+import { Supervised } from "@/domain/enterprise/entities/supervised";
 import { injectable } from "inversify";
 import { makeAutoObservable, runInAction } from "mobx";
 
@@ -11,9 +10,7 @@ type SetMealsDeletionLoadingInput = {
 @injectable()
 export class SupervisionStore {
   private _supervisedLoading: boolean = true;
-  private _mealsLoading: boolean = true;
-  private _supervised: SupervisedData | null = null;
-  private _meals: MealData[] = [];
+  private _supervised: Supervised | null = null;
   private _mealsDeletionLoading = new Map<string, boolean>();
 
   constructor() {
@@ -30,37 +27,18 @@ export class SupervisionStore {
     return this._supervisedLoading;
   }
 
-  set mealsLoading(state: boolean) {
-    runInAction(() => {
-      this._mealsLoading = state;
-    });
-  }
-
-  get mealsLoading() {
-    return this._mealsLoading;
-  }
-
-  set supervised(supervised: SupervisedData) {
+  set supervised(supervised: Supervised) {
     runInAction(() => {
       this._supervised = supervised;
     });
   }
 
-  get supervised(): SupervisedData | null {
+  get supervised(): Supervised | null {
     return this._supervised;
   }
 
-  set meals(meals: MealData[]) {
-    runInAction(() => {
-      this._meals = meals;
-      meals.forEach((meal) => {
-        this._mealsDeletionLoading.set(meal.id, false);
-      });
-    });
-  }
-
   get meals() {
-    return this._meals;
+    return this._supervised?.meals ?? [];
   }
 
   set mealsDeletionLoading({ mealId, state }: SetMealsDeletionLoadingInput) {
