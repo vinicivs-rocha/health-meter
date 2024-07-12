@@ -15,6 +15,7 @@ import { AuthenticationGateway } from "./domain/application/gateways/authenticat
 import { AuthenticationPresenter } from "./domain/application/presenters/authentication";
 import { MealPresenter } from "./domain/application/presenters/meal";
 import { SupervisionPresenter } from "./domain/application/presenters/supervision";
+import { MetricRepository } from "./domain/application/repositories/metric";
 import { SupervisedRepository } from "./domain/application/repositories/supervised";
 import { Authenticate } from "./domain/application/usecases/authenticate";
 import { DeleteMeal } from "./domain/application/usecases/delete-meal";
@@ -25,6 +26,7 @@ import { StartSupervision } from "./domain/application/usecases/start-supervisio
 import { MealStore } from "./stores/meal";
 import { SupervisionStore } from "./stores/supervision";
 import { supabase } from "./utils/supabase";
+import { SupabaseMetricRepository } from "./adapters/repository/metric";
 
 const appInjector = new Container();
 
@@ -75,6 +77,10 @@ appInjector.bind<StartMealAdding>("StartMealAdding").to(StartMealAdding);
 appInjector
   .bind<MealAddingViewModel>("MealAddingViewModel")
   .to(MealAddingViewModel);
+
+appInjector
+  .bind<MetricRepository>("MetricRepository")
+  .to(SupabaseMetricRepository);
 
 export { appInjector };
 
