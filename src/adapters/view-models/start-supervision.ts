@@ -14,8 +14,8 @@ export class StartSupervisionViewModel {
   @inject("DeleteMeal") private deleteMeal!: DeleteMeal;
   @inject("StartMealAdding") private _startMealAdding!: StartMealAdding;
 
-  async start({ userId }: { userId: string }) {
-    this.startSupervision.execute({ supervisedId: userId });
+  async start() {
+    this.startSupervision.execute();
   }
 
   async logout() {

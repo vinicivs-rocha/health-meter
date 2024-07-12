@@ -5,18 +5,16 @@ import { StyleSheet } from "react-native";
 import { SupervisionViewProps } from "./view";
 
 interface StartSupervisionControllerProps {
-  userId: string;
   viewModel: StartSupervisionViewModel;
   View: (props: OmitUppercase<SupervisionViewProps>) => React.ReactNode;
 }
 
 export default function StartSupervisionController({
-  userId,
   viewModel,
   View,
 }: StartSupervisionControllerProps) {
   useEffect(() => {
-    viewModel.start({ userId });
+    viewModel.start();
   }, []);
 
   return (

@@ -7,15 +7,9 @@ import SupervisionMeals from "@/components/supervision/meals";
 import SupervisionView from "@/components/supervision/view";
 import { useAppInjector } from "@/hooks/app-injector";
 import { SupervisionStore } from "@/stores/supervision";
-import { useLocalSearchParams } from "expo-router";
 import React from "react";
 
 export default function StartSupervisionPage() {
-  const { id } = useLocalSearchParams<{ id: string }>();
-  if (!id) {
-    throw new Error("User ID not found");
-  }
-
   const viewModel = useAppInjector<StartSupervisionViewModel>(
     "StartSupervisionViewModel"
   );
@@ -23,7 +17,6 @@ export default function StartSupervisionPage() {
 
   return (
     <StartSupervisionController
-      userId={id}
       viewModel={viewModel}
       View={(props) => (
         <SupervisionView
