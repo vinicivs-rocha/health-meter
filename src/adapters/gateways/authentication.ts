@@ -13,8 +13,6 @@ export class SupabaseAuthenticationGateway implements AuthenticationGateway {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
 
-      console.log(userInfo);
-
       if (!userInfo.idToken) throw new Error("no ID token present!");
 
       const { error } = await supabase.auth.signInWithIdToken({

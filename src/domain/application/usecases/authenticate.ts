@@ -10,17 +10,18 @@ export type AuthenticateOutput = {};
 export class Authenticate implements Usecase<[], AuthenticateOutput> {
   output!: AuthenticateOutput;
   @inject("AuthenticationGateway")
-  private readonly AuthenticationGateway!: AuthenticationGateway;
+  private readonly authenticationGateway!: AuthenticationGateway;
   @inject("AuthenticationPresenter")
   private readonly authenticationPresenter!: AuthenticationPresenter;
 
   async execute() {
     try {
       const isAuthenticated =
-        await this.AuthenticationGateway.isAuthenticated();
-      if (isAuthenticated) {
+        await this.authenticationGateway.isAuthenticated();
+      if (!isAuthenticated) {
         throw new Unauthenticated();
       }
+      console.log("Authenticated");
       await this.authenticationPresenter.presentAuthenticated();
     } catch (error) {
       if (error instanceof Unauthenticated) {
