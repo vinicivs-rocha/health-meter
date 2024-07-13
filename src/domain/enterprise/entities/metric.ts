@@ -21,6 +21,10 @@ export class Metric extends Entity<MetricProps> {
     });
   }
 
+  get id(): string {
+    return this.props.id;
+  }
+
   get name(): string {
     return this.props.name;
   }

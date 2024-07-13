@@ -1,7 +1,6 @@
 import { randomUUID } from "expo-crypto";
 import { Entity } from "../../../core/entities/entity";
 import type { Optional } from "../../../core/types/optional";
-import { TacoField } from "../value-objects/taco-field";
 import { Meal } from "./meal";
 
 export type SupervisedProps = {
@@ -44,9 +43,9 @@ export class Supervised extends Entity<SupervisedProps> {
     this.props.meals = this.meals.filter((m) => m.id !== mealId);
   }
 
-  getTacoFieldTotalIntake(tacoField: TacoField) {
+  getMetricIntake(metricId: string) {
     return this.props.meals.reduce(
-      (acc, meal) => acc + meal.getTacoFieldTotalIntake(tacoField),
+      (acc, meal) => acc + meal.getMetricTotalIntake(metricId),
       0
     );
   }

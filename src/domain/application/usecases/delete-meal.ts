@@ -42,7 +42,7 @@ export class DeleteMeal implements Usecase<DeleteMealInput, DeleteMealOutput> {
     this.supervisionPresenter.setMealDeletionLoading(false, input.mealId);
     this.supervisionPresenter.presentSupervised(supervised);
     this.supervisionPresenter.presentIntake(
-      supervised.getTacoFieldTotalIntake(highlightedMetric.tacoField)
+      supervised.getMetricIntake(highlightedMetric.id)
     );
   }
 }

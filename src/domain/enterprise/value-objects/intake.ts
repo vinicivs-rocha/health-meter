@@ -6,6 +6,7 @@ export class Intake implements ValueObject {
   private _value: number;
 
   constructor(
+    public readonly metricId: string,
     public readonly name: string,
     public readonly tacoField: TacoField,
     value: number

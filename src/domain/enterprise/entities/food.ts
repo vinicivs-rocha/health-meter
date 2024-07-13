@@ -2,7 +2,7 @@ import { Entity } from "@core/entities/entity";
 import { Optional } from "@core/types/optional";
 import { randomUUID } from "expo-crypto";
 import { Intake } from "../value-objects/intake";
-import { TacoField } from "../value-objects/taco-field";
+import { Metric } from "./metric";
 
 export type FoodProps = {
   id: string;
@@ -35,15 +35,20 @@ export class Food extends Entity<FoodProps> {
     return this.props.intakes;
   }
 
-  addIntake(name: string, tacoField: TacoField, baseValue: number): void {
+  addIntake(metric: Metric, baseValue: number): void {
     this.props.intakes.push(
-      new Intake(name, tacoField, baseValue * this.props.amount)
+      new Intake(
+        metric.id,
+        metric.name,
+        metric.tacoField,
+        baseValue * this.props.amount
+      )
     );
   }
 
-  getTacoFieldIntake(tacoField: TacoField): number {
+  getMetricIntake(metricId: string): number {
     return (
-      this.props.intakes.find((intake) => intake.tacoField === tacoField)
+      this.props.intakes.find((intake) => intake.metricId === metricId)
         ?.value ?? 0
     );
   }

@@ -1,7 +1,6 @@
 import { randomUUID } from "expo-crypto";
 import { Entity } from "../../../core/entities/entity";
 import type { Optional } from "../../../core/types/optional";
-import { TacoField } from "../value-objects/taco-field";
 import { Food } from "./food";
 
 export type MealProps = {
@@ -39,9 +38,9 @@ export class Meal extends Entity<MealProps> {
     this.props.foods = this.props.foods.filter((f) => f.id !== food.id);
   }
 
-  getTacoFieldTotalIntake(tacoField: TacoField) {
+  getMetricTotalIntake(metricId: string) {
     return this.props.foods.reduce(
-      (acc, food) => acc + food.getTacoFieldIntake(tacoField),
+      (acc, food) => acc + food.getMetricIntake(metricId),
       0
     );
   }

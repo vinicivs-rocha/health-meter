@@ -49,7 +49,7 @@ export class SupabaseSupervisedRepository implements SupervisedRepository {
 
     const { data: intakesData, error: intakesError } = await this.supabase
       .from("intakes")
-      .select("metrics(name, taco_fields(field_name, unit)), value");
+      .select("metrics(id, name, taco_fields(field_name, unit)), value");
     if (intakesError) {
       throw new Error(intakesError.message);
     }
@@ -77,13 +77,19 @@ export class SupabaseSupervisedRepository implements SupervisedRepository {
                       ({
                         metrics: [
                           {
+                            id,
                             name,
                             taco_fields: [{ field_name, unit }],
                           },
                         ],
                         value,
                       }) =>
-                        new Intake(name, new TacoField(field_name, unit), value)
+                        new Intake(
+                          id,
+                          name,
+                          new TacoField(field_name, unit),
+                          value
+                        )
                     ),
                   })
               ),
