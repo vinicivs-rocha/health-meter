@@ -7,7 +7,6 @@ export class Intake implements ValueObject {
 
   constructor(
     public readonly metricId: string,
-    public readonly name: string,
     public readonly tacoField: TacoField,
     value: number
   ) {
@@ -36,9 +35,9 @@ export class Intake implements ValueObject {
     }
 
     return (
-      this.name === other.name &&
       this.tacoField.equals(other.tacoField) &&
-      this.value === other.value
+      this.value === other.value &&
+      this.metricId === other.metricId
     );
   }
 }
