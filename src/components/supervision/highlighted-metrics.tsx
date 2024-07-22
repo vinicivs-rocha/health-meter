@@ -45,9 +45,7 @@ function SupervisionHighlightedMetrics({
   const [metricContainerWidth, setMetricContainerWidth] = useState(0);
   const [metricContainerHeight, setMetricContainerHeight] = useState(0);
 
-  if (Store.supervisedLoading) return <Skeleton />;
-
-  const highlightedMetric = Store.supervised!.highlightedMetric;
+  if (Store.highlightedMetricLoading) return <Skeleton />;
 
   const handleLayout = (event: LayoutChangeEvent) => {
     const { width, height } = event.nativeEvent.layout;
@@ -64,10 +62,12 @@ function SupervisionHighlightedMetrics({
         <View style={styles.metricTitleContainer}>
           <MaterialIcons name="analytics" size={15} color={"#343A40"} />
           <Text style={styles.metricText}>
-            {highlightedMetric.name} diárias
+            {Store.highlightedMetric?.name} diárias
           </Text>
         </View>
-        <Text style={styles.metricNumber}>{highlightedMetric?.goal.value}</Text>
+        <Text style={styles.metricNumber}>
+          {Store.highlightedMetric?.goal.value}
+        </Text>
       </Pressable>
       <View
         style={[styles.metricCointainer, { backgroundColor: "transparent" }]}
@@ -76,13 +76,15 @@ function SupervisionHighlightedMetrics({
         <View style={styles.metricTitleContainer}>
           <MaterialIcons name="fastfood" size={15} color={"#343A40"} />
           <Text style={styles.metricText}>
-            {highlightedMetric.name} consumidas
+            {Store.highlightedMetric?.name} consumidas
           </Text>
-          <Text style={styles.metricNumber}>{highlightedMetric?.intake}</Text>
+          <Text style={styles.metricNumber}>{Store.highlightedIntake}</Text>
           <WaveProgress
             height={metricContainerHeight}
             width={metricContainerWidth}
-            progress={highlightedMetric.intakePercentage}
+            progress={
+              Store.highlightedMetric?.goal.value ?? 0 / Store.highlightedIntake
+            }
           />
         </View>
       </View>
