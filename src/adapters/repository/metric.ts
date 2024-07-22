@@ -12,7 +12,7 @@ export class SupabaseMetricRepository implements MetricRepository {
   async findHighlightedInIds(ids: string[]): Promise<Metric | null> {
     const { data, error } = await this.supabase
       .from("metrics")
-      .select("id, taco_fields (unit, field_name), name, highlighted, goal")
+      .select("id, taco_fields(unit, field_name), name, highlighted, goal")
       .in("id", ids)
       .eq("highlighted", true)
       .single();
@@ -21,16 +21,16 @@ export class SupabaseMetricRepository implements MetricRepository {
       throw new Error(error.message);
     }
 
+    const { field_name: tacoFieldName, unit: tacoFieldUnit } =
+      data.taco_fields as any;
+
     return (
       data &&
       new Metric({
         id: data.id,
         name: data.name,
         highlighted: data.highlighted,
-        tacoField: new TacoField(
-          data.taco_fields[0].field_name,
-          data.taco_fields[0].unit
-        ),
+        tacoField: new TacoField(tacoFieldName, tacoFieldUnit),
         goal: new Goal(data.goal),
       })
     );
