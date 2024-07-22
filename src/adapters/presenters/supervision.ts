@@ -1,4 +1,5 @@
 import { SupervisionPresenter } from "@/domain/application/presenters/supervision";
+import { Metric } from "@/domain/enterprise/entities/metric";
 import { Supervised } from "@/domain/enterprise/entities/supervised";
 import { SupervisionStore } from "@/stores/supervision";
 import { inject, injectable } from "inversify";
@@ -31,5 +32,13 @@ export class ExpoSupervisionPresenter implements SupervisionPresenter {
 
   async presentIntake(intake: number): Promise<void> {
     this.store.highlightedIntake = intake;
+  }
+
+  async presentHighlightedMetric(metric: Metric): Promise<void> {
+    this.store.highlightedMetric = metric;
+  }
+
+  async presentHighlightedMetricLoading(state: boolean): Promise<void> {
+    this.store.highlightedMetricLoading = state;
   }
 }

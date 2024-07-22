@@ -1,3 +1,4 @@
+import { Metric } from "@/domain/enterprise/entities/metric";
 import { Supervised } from "@/domain/enterprise/entities/supervised";
 
 export interface SupervisionPresenter {
@@ -7,4 +8,6 @@ export interface SupervisionPresenter {
   presentError(message: string): Promise<void>;
   presentCalorieGoal(goal: number): Promise<void>;
   presentIntake(intake: number): Promise<void>;
+  presentHighlightedMetric(metric: Metric): Promise<void>;
+  presentHighlightedMetricLoading(state: boolean): Promise<void>;
 }
