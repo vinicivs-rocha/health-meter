@@ -2,17 +2,17 @@ import { ValueObject } from "@core/value-objects/value-object";
 import { InvalidField } from "../exceptions/invalid-field";
 
 export enum TacoFieldNames {
-  CARBS = "carbohydrates",
-  FAT = "lipids",
-  PROTEIN = "protein",
-  CALORIES = "kcal",
+  carbohydrates = "carbohydrates",
+  lipids = "lipids",
+  protein = "protein",
+  kcal = "kcal",
 }
 
 export enum TacoFieldUnits {
-  CARBS = "g",
-  FAT = "g",
-  PROTEIN = "g",
-  CALORIES = "kcal",
+  carbohydrates = "g",
+  lipids = "g",
+  protein = "g",
+  kcal = "kcal",
 }
 
 export class TacoField implements ValueObject {
