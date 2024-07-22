@@ -1,3 +1,4 @@
+import { Metric } from "@/domain/enterprise/entities/metric";
 import { Supervised } from "@/domain/enterprise/entities/supervised";
 import { injectable } from "inversify";
 import { makeAutoObservable, runInAction } from "mobx";
@@ -13,6 +14,8 @@ export class SupervisionStore {
   private _supervised: Supervised | null = null;
   private _mealsDeletionLoading = new Map<string, boolean>();
   private _highlightedIntake: number = 0;
+  private _highlightedMetric: Metric | null = null;
+  private _highlightedMetricLoading: boolean = true;
 
   constructor() {
     makeAutoObservable(this);
@@ -55,6 +58,26 @@ export class SupervisionStore {
   set highlightedIntake(value: number) {
     runInAction(() => {
       this._highlightedIntake = value;
+    });
+  }
+
+  get highlightedMetric(): Metric | null {
+    return this._highlightedMetric;
+  }
+
+  set highlightedMetric(metric: Metric) {
+    runInAction(() => {
+      this._highlightedMetric = metric;
+    });
+  }
+
+  get highlightedMetricLoading() {
+    return this._highlightedMetricLoading;
+  }
+
+  set highlightedMetricLoading(state: boolean) {
+    runInAction(() => {
+      this._highlightedMetricLoading = state;
     });
   }
 
